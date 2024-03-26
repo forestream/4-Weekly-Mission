@@ -1,7 +1,7 @@
 import FolderList from "../../component/FolderList";
 import LinkAddInput from "../../component/LinkAddInput";
 import LinkSearchInput from "../../component/LinkSearchInput";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import {
   FolderListDatum,
   getSavedFolderList,
@@ -46,9 +46,9 @@ const FolderPage = () => {
     getData();
   }, []);
 
-  const handleClick = (e: { target: { id: string } }) => {
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
     const findFolder: any = folders.find(
-      (item) => String(item.id) === e.target.id
+      (item) => String(item.id) === (e.target as HTMLLIElement).id
     );
 
     setSelectedFolder(findFolder);
