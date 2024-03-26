@@ -13,7 +13,8 @@ export const KebabButton = styled.img`
 `;
 
 export const KebabMenuBox = styled.div`
-  display: ${({ $kebabopen }) => ($kebabopen === "true" ? `block` : `none`)};
+  display: ${(props) =>
+    props["data-kebabopen"] === "true" ? `block` : `none`};
 
   position: absolute;
   width: 100px;

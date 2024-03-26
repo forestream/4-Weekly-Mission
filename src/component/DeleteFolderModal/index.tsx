@@ -1,8 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalBackground, ModalBox } from "./style";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FolderListDatum } from "../../apis/api";
 
-const DeleteFolderModal = ({ setDeleteFolderModalOpen, selectedFolder }) => {
+interface Props {
+  setDeleteFolderModalOpen: (value: boolean) => void;
+  selectedFolder: FolderListDatum;
+}
+const DeleteFolderModal = ({
+  setDeleteFolderModalOpen,
+  selectedFolder,
+}: Props) => {
   const closeModal = () => {
     setDeleteFolderModalOpen(false);
   };

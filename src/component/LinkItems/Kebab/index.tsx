@@ -6,24 +6,34 @@ import {
   KebabMenuBox,
 } from "./style";
 import kebabImg from "../../../images/kebab.svg";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import DeleteLinkModal from "../../DeleteLinkModal";
 import AddToFolderModal from "../../AddToFolderModal";
+import { FolderListDatum } from "../../../apis/api";
 
-const Kebab = ({ folders, url, onClick, kebabOpen }) => {
+interface Props {
+  folders: FolderListDatum[];
+  url: string;
+  onClick: (e: MouseEvent) => void;
+  kebabOpen: boolean;
+}
+
+const Kebab = ({ folders, url, onClick, kebabOpen }: Props) => {
   const [deleteLinkModalOpen, setDeleteLinkModalOpen] = useState(false);
   const [addToFolderModalOpen, setAddToFolderModalOpen] = useState(false);
 
-  const handleClick = (e) => {
-    if (e.target.id === "delete") setDeleteLinkModalOpen(true);
-    if (e.target.id === "addToFolder") setAddToFolderModalOpen(true);
+  const handleClick = (e: MouseEvent) => {
+    if ((e.target as HTMLDivElement).id === "delete")
+      setDeleteLinkModalOpen(true);
+    if ((e.target as HTMLDivElement).id === "addToFolder")
+      setAddToFolderModalOpen(true);
   };
 
   return (
     <>
       <Container>
         <KebabButton src={kebabImg} onClick={onClick} />
-        <KebabMenuBox $kebabopen={kebabOpen.toString()} onClick={onClick}>
+        <KebabMenuBox data-kebabopen={kebabOpen.toString()} onClick={onClick}>
           <Delete id="delete" onClick={handleClick}>
             삭제하기
           </Delete>
