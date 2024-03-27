@@ -1,7 +1,7 @@
 import FolderList from "../../component/FolderList";
 import LinkAddInput from "../../component/LinkAddInput";
 import LinkSearchInput from "../../component/LinkSearchInput";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import {
   FolderListDatum,
   getSavedFolderList,
@@ -12,6 +12,7 @@ import LinkItems from "../../component/LinkItems";
 import { Container, FolderName } from "./style";
 import FolderOption from "../../component/FolderOption";
 import MobileAddFolderButton from "../../component/MobileAddFolderButton";
+import BottomLinkAddInput from "../../component/BottomLinkAddInput";
 
 const ALL: FolderListDatum = {
   id: "ALL",
@@ -29,6 +30,10 @@ const FolderPage = () => {
   const [selectedFolder, setSelectedFolder] = useState<FolderListDatum>(ALL);
   const [links, setLinks] = useState<LinkDatum[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const addLinkRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+  const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
+  const [footerIntersecting, setFooterIntersecting] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -81,16 +86,42 @@ const FolderPage = () => {
     );
   };
 
+  // IntersectionObserver
+  const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.target.id === "addLink")
+        setAddLinkIntersecting(entry.isIntersecting);
+      if (entry.target.id === "footer")
+        setFooterIntersecting(entry.isIntersecting);
+    });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersect, {
+      threshold: 0.4,
+    });
+
+    if (addLinkRef.current && footerRef.current) {
+      observer.observe(addLinkRef.current);
+      observer.observe(footerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <>
-      <LinkAddInput folders={folders} />
+      <div id="addLink" ref={addLinkRef}>
+        <LinkAddInput folders={folders} />
+      </div>
       <Container>
         <LinkSearchInput onSubmit={handleSearchSubmit} />
         <FolderList
           folders={folders}
           selectedFolder={selectedFolder}
           onClick={handleClick}
-          // isLoading={isLoading}
         />
         <FolderName>
           {selectedFolder.name}
@@ -99,6 +130,10 @@ const FolderPage = () => {
         <LinkItems folders={folders} links={links} isLoading={isLoading} />
         <MobileAddFolderButton />
       </Container>
+      {!addLinkIntersecting && !footerIntersecting && (
+        <BottomLinkAddInput folders={folders} />
+      )}
+      <div id="footer" ref={footerRef}></div>
     </>
   );
 };
