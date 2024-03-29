@@ -7,26 +7,6 @@ import { MouseEvent, useRef, useState } from "react";
 import Kebab from "../Kebab";
 import { SharedFolderLink, LinkDatum } from "../../../apis/api";
 
-// (alias) type FolderDataLink = {
-//   id: number;
-//   title: string;
-//   url: string;
-//   description: string;
-//   createdAt: string;
-//   imageSource: string;
-// }
-
-// (alias) type LinkDatum = {
-//   id: number;
-//   title: string;
-//   url: string;
-//   description: string;
-//   created_at: string;
-//   folder_id: number;
-//   image_source: string;
-//   updated_at: string;
-// }
-
 interface Props {
 	folders: any;
 	link: LinkDatum | SharedFolderLink;

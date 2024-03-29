@@ -1,7 +1,8 @@
 import searchImg from "@/public/images/search.svg";
 import clearIcon from "@/public/images/clear.svg";
-import { ClearIcon, LinkSearchInputWrapper, SearchIcon } from "./style";
+import { ClearIcon, LinkSearchInputWrapper } from "./style";
 import { ChangeEvent, FormEvent, useState } from "react";
+import Image from "next/image";
 
 const LinkSearchInput = ({
 	onSubmit
@@ -25,7 +26,7 @@ const LinkSearchInput = ({
 
 	return (
 		<LinkSearchInputWrapper onSubmit={handleSubmit}>
-			<SearchIcon src={searchImg} alt="검색 이미지" />
+			<Image width={16} height={16} src={searchImg} alt="검색 이미지" />
 			<input
 				placeholder="링크를 검색해 보세요"
 				value={searchValue}

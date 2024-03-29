@@ -3,6 +3,7 @@ import linkImg from "@/public/images/link.svg";
 import AddToFolderModal from "../AddToFolderModal";
 import { LinkAddForm, Div } from "./style";
 import { FolderListDatum } from "@/apis/api";
+import Image from "next/image";
 
 interface Props {
 	folders: FolderListDatum[];
@@ -25,7 +26,7 @@ const LinkAddInput = ({ folders }: Props) => {
 		<>
 			<Div>
 				<LinkAddForm onSubmit={handleSubmit}>
-					<img src={linkImg} alt="링크 이미지" />
+					<Image src={linkImg} alt="링크 이미지" />
 					<input
 						id="linkEntered"
 						placeholder="링크를 추가해 보세요"
