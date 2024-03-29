@@ -1,21 +1,32 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalBackground, ModalBox, Ul } from "./style";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
+import { FolderListDatum } from "../../apis/api";
 
-const AddToFolderModal = ({ link, setAddToFolderModalOpen, folders }) => {
-  const [folderToAdd, setFolderToAdd] = useState({});
+interface Props {
+  link: string;
+  setAddToFolderModalOpen: (arg: boolean) => void;
+  folders: FolderListDatum[];
+}
 
-  const closeModal = (e) => {
+const AddToFolderModal = ({
+  link,
+  setAddToFolderModalOpen,
+  folders,
+}: Props) => {
+  const [folderToAdd, setFolderToAdd] = useState("");
+
+  const closeModal = (e: MouseEvent) => {
     e.preventDefault();
     setAddToFolderModalOpen(false);
   };
 
-  const handleClick = (e) => {
-    setFolderToAdd(e.target.id);
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+    setFolderToAdd((e.target as HTMLLIElement).id);
   };
 
-  const handleEvent = (e) => {
+  const handleEvent = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     e.preventDefault();
   };
@@ -34,14 +45,18 @@ const AddToFolderModal = ({ link, setAddToFolderModalOpen, folders }) => {
           {folders.map(
             (folder) =>
               folder.name !== "전체" && (
-                <li key={folder.id} id={folder.id} onClick={handleClick}>
+                <li
+                  key={folder.id}
+                  id={folder.id.toString()}
+                  onClick={handleClick}
+                >
                   <div>
                     <span>
                       {folder.name} {folder.id}
                     </span>
                     <span className="count">{folder.link.count}개 링크</span>
                   </div>
-                  {folder.id === folderToAdd?.id && (
+                  {folder.id === folderToAdd && (
                     <span className="selected">✓</span>
                   )}
                 </li>

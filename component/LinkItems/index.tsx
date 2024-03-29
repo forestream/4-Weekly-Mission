@@ -1,8 +1,15 @@
+import { SharedFolderLink, LinkDatum } from "../../apis/api";
 import LinkItem from "./LinkItem";
 import "./LinkItems.css";
 import { LinkImageLoading, LinkLoading, LoadingAnimation } from "./style";
 
-const LinkItems = ({ folders, links = [], isLoading }) => {
+interface Props {
+  folders?: any;
+  links: (SharedFolderLink | LinkDatum)[];
+  isLoading?: boolean;
+}
+
+const LinkItems = ({ folders, links = [], isLoading }: Props) => {
   return (
     <div className="LinkItems">
       {isLoading ? (

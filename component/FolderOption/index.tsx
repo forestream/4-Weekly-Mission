@@ -2,10 +2,11 @@ import styled from "styled-components";
 import shareIcon from "../../images/shareIcon.svg";
 import penIcon from "../../images/penIcon.svg";
 import deleteIcon from "../../images/deleteIcon.svg";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import EditFolderNameModal from "../EditFolderNameModal";
 import ShareFolderModal from "../ShareFolderModal";
 import DeleteFolderModal from "../DeleteFolderModal";
+import { FolderListDatum } from "../../apis/api";
 
 const FolderOptions = styled.div`
   display: flex;
@@ -28,13 +29,17 @@ const FolderOptions = styled.div`
   }
 `;
 
-const FolderOption = ({ selectedFolder }) => {
+interface Props {
+  selectedFolder: FolderListDatum;
+}
+
+const FolderOption = ({ selectedFolder }: Props) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [shareFolderModalOpen, setShareFolderModalOpen] = useState(false);
   const [deleteFolderModalOpen, setDeleteFolderModalOpen] = useState(false);
 
-  const handleClick = (e) => {
-    const ID = e.target.id;
+  const handleClick = (e: MouseEvent) => {
+    const ID = (e.target as HTMLButtonElement).id;
     if (ID === "share") setShareFolderModalOpen(true);
     if (ID === "editName") setEditModalOpen(true);
     if (ID === "delete") setDeleteFolderModalOpen(true);

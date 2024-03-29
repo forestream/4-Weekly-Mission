@@ -3,10 +3,19 @@ import { ModalBackground, ModalBox } from "./style";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FacebookShareButton } from "react-share";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { FolderListDatum } from "../../apis/api";
 
 const HOST_URL = window.location.host;
 
-const ShareFolderModal = ({ setShareFolderModalOpen, selectedFolder }) => {
+interface Props {
+  setShareFolderModalOpen: (value: boolean) => void;
+  selectedFolder: FolderListDatum;
+}
+
+const ShareFolderModal = ({
+  setShareFolderModalOpen,
+  selectedFolder,
+}: Props) => {
   const closeModal = () => {
     setShareFolderModalOpen(false);
   };

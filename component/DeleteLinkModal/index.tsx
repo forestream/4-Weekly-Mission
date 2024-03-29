@@ -1,14 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalBackground, ModalBox } from "./style";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { MouseEvent } from "react";
 
-const DeleteLinkModal = ({ url, setDeleteLinkModalOpen }) => {
-  const closeModal = (e) => {
+interface Props {
+  url: string;
+  setDeleteLinkModalOpen: (value: boolean) => void;
+}
+
+const DeleteLinkModal = ({ url, setDeleteLinkModalOpen }: Props) => {
+  const closeModal = (e: MouseEvent) => {
     setDeleteLinkModalOpen(false);
     e.preventDefault();
   };
 
-  const handleEvent = (e) => {
+  const handleEvent = (e: MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
   };
