@@ -10,6 +10,7 @@ import { MouseEvent, useState } from "react";
 import DeleteLinkModal from "../../DeleteLinkModal";
 import AddToFolderModal from "../../AddToFolderModal";
 import { FolderListDatum } from "../../../apis/api";
+import Image from "next/image";
 
 interface Props {
 	folders: FolderListDatum[];
@@ -32,7 +33,9 @@ const Kebab = ({ folders, url, onClick, kebabOpen }: Props) => {
 	return (
 		<>
 			<Container>
-				<KebabButton src={kebabImg} onClick={onClick} />
+				<KebabButton>
+					<Image src={kebabImg} alt="케밥 버튼" onClick={onClick} />
+				</KebabButton>
 				<KebabMenuBox data-kebabopen={kebabOpen.toString()} onClick={onClick}>
 					<Delete id="delete" onClick={handleClick}>
 						삭제하기

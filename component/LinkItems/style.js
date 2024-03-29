@@ -40,7 +40,7 @@ export const LinkLoading = styled.div`
 	margin: 1rem;
 `;
 
-export const StarButton = styled.img`
+export const StarButton = styled.div`
 	position: absolute;
 	top: 1rem;
 	right: 1rem;

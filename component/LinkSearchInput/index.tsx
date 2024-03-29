@@ -32,7 +32,9 @@ const LinkSearchInput = ({
 				value={searchValue}
 				onChange={handleChange}
 			/>
-			<ClearIcon src={clearIcon} alt="내용 지우기" onClick={handleClick} />
+			<ClearIcon>
+				<Image fill src={clearIcon} alt="내용 지우기" onClick={handleClick} />
+			</ClearIcon>
 		</LinkSearchInputWrapper>
 	);
 };

@@ -19,7 +19,8 @@ export const LinkSearchInputWrapper = styled.form`
 	}
 `;
 
-export const ClearIcon = styled.img`
+export const ClearIcon = styled.div`
+	position: relative;
 	cursor: pointer;
 	width: 24px;
 	height: 24px;

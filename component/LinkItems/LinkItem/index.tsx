@@ -6,6 +6,8 @@ import "../LinkItems.module.css";
 import { MouseEvent, useRef, useState } from "react";
 import Kebab from "../Kebab";
 import { SharedFolderLink, LinkDatum } from "../../../apis/api";
+import Image from "next/image";
+import styles from "./LinkItem.module.css";
 
 interface Props {
 	folders: any;
@@ -29,7 +31,12 @@ const LinkItem = ({ folders, link }: Props) => {
 	};
 
 	return (
-		<a className="LinkItem" href={link.url} target="_blank" rel="noreferrer">
+		<a
+			className={styles.LinkItem}
+			href={link.url}
+			target="_blank"
+			rel="noreferrer"
+		>
 			<LinkImage
 				data-image={
 					"imageSource" in link
@@ -37,9 +44,11 @@ const LinkItem = ({ folders, link }: Props) => {
 						: link.image_source || defaultImage
 				}
 			>
-				<StarButton src={starButtonImg} />
+				<StarButton>
+					<Image alt="즐겨찾기" src={starButtonImg} />
+				</StarButton>
 			</LinkImage>
-			<div className="createdAt">
+			<div className={styles.createdAt}>
 				{calculateTimePassed(CREATED_AT)}
 				<Kebab
 					folders={folders}
@@ -48,8 +57,8 @@ const LinkItem = ({ folders, link }: Props) => {
 					url={link.url}
 				/>
 			</div>
-			<p className="description">{link.description}</p>
-			<p className="createdDate">{CREATED_DATE}</p>
+			<p className={styles.description}>{link.description}</p>
+			<p className={styles.createdDate}>{CREATED_DATE}</p>
 		</a>
 	);
 };
