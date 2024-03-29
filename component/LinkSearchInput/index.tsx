@@ -1,5 +1,5 @@
-import searchImg from "../../images/search.svg";
-import clearIcon from "../../images/clear.svg";
+import searchImg from "@/public/images/search.svg";
+import clearIcon from "@/public/images/clear.svg";
 import { ClearIcon, LinkSearchInputWrapper, SearchIcon } from "./style";
 import { ChangeEvent, FormEvent, useState } from "react";
 
