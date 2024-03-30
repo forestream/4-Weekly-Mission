@@ -1,10 +1,10 @@
-import { SharedFolderLink, LinkDatum } from "../../apis/api";
+import { SharedFolderLink, LinkDatum, FolderListDatum } from "../../apis/api";
 import LinkItem from "./LinkItem";
 import styles from "./LinkItems.module.css";
 import { LinkImageLoading, LinkLoading, LoadingAnimation } from "./style";
 
 interface Props {
-	folders?: any;
+	folders?: FolderListDatum[];
 	links: (SharedFolderLink | LinkDatum)[];
 	isLoading?: boolean;
 }
@@ -13,13 +13,22 @@ const LinkItems = ({ folders, links = [], isLoading }: Props) => {
 	return (
 		<div className={styles.LinkItems}>
 			{isLoading ? (
-				<LoadingAnimation>
-					<div className={styles.LinkItem}>
-						<LinkImageLoading />
-						<LinkLoading />
-						<LinkLoading />
-					</div>
-				</LoadingAnimation>
+				<>
+					<LoadingAnimation>
+						<div className={styles.Loading}>
+							<LinkImageLoading />
+							<LinkLoading />
+							<LinkLoading />
+						</div>
+					</LoadingAnimation>
+					<LoadingAnimation>
+						<div className={styles.Loading}>
+							<LinkImageLoading />
+							<LinkLoading />
+							<LinkLoading />
+						</div>
+					</LoadingAnimation>
+				</>
 			) : (
 				links.map((link) => (
 					<LinkItem folders={folders} key={link.id} link={link} />

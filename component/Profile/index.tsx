@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ProfileDatum, getProfileData } from "../../apis/api";
 import styles from "./Profile.module.css";
 import LoadingProfile from "./LoadingProfile";
+import Image from "next/image";
 
 const Profile = () => {
 	const [user, setUser] = useState<ProfileDatum>({
@@ -12,6 +13,7 @@ const Profile = () => {
 		image_source: "",
 		name: ""
 	});
+
 	const [isLoading, setIsLoading] = useState(true);
 
 	const getData = async () => {
@@ -32,11 +34,12 @@ const Profile = () => {
 
 	return (
 		<>
-			{isLoading ? (
-				<LoadingProfile />
-			) : user ? (
+			{isLoading && <LoadingProfile />}
+			{user ? (
 				<div className={styles.Profile}>
-					<img src={user.image_source} alt="사용자 프로필 이미지" />
+					<div className={styles.ProfileImage}>
+						<Image fill src={user.image_source} alt="사용자 프로필 이미지" />
+					</div>
 					<span>{user.email}</span>
 				</div>
 			) : (

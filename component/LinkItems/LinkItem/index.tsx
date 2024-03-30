@@ -1,4 +1,3 @@
-import defaultImage from "@/public/images/card-default.png";
 import { calculateTimePassed } from "../../../utils/calculateTimePassed";
 import starButtonImg from "@/public/images/starButton.svg";
 import { LinkImage, StarButton } from "../style";
@@ -39,9 +38,9 @@ const LinkItem = ({ folders, link }: Props) => {
 		>
 			<LinkImage
 				data-image={
-					"imageSource" in link
-						? link.imageSource
-						: link.image_source || defaultImage
+					(link as SharedFolderLink).imageSource ||
+					(link as LinkDatum).image_source ||
+					"images/card-default.png"
 				}
 			>
 				<StarButton>
