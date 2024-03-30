@@ -14,6 +14,7 @@ import FolderList from "@/component/FolderList";
 import LinkAddInput from "@/component/LinkAddInput";
 import LinkSearchInput from "@/component/LinkSearchInput";
 import { useRouter } from "next/router";
+import LinkSkeleton from "@/component/LinkItems/LinkSkeleton";
 
 const ALL: FolderListDatum = {
 	id: "ALL",
@@ -43,13 +44,17 @@ export async function getServerSideProps(context: any) {
 interface Props {
 	folders: FolderListDatum[];
 	links: LinkDatum[];
+	loading: boolean;
 }
 
-const FolderPage = ({ folders, links: initLinks }: Props) => {
+const FolderPage = ({
+	folders,
+	links: initLinks,
+	loading: isLoading
+}: Props) => {
 	const router = useRouter();
 	const [links, setLinks] = useState(initLinks);
 	const [selectedFolder, setSelectedFolder] = useState<FolderListDatum>(ALL);
-	const [isLoading, setIsLoading] = useState(false);
 	const addLinkRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
 	const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
