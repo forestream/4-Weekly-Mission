@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Profile = () => {
 	const [user, setUser] = useState<ProfileDatum | null>(null);
-
+	const [isError, setIsError] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const getData = async () => {
@@ -15,7 +15,7 @@ const Profile = () => {
 			const data = await getProfileData();
 			setUser(data.data[0]);
 		} catch (error: any) {
-			alert(error.message);
+			setIsError(true);
 		} finally {
 			setIsLoading(false);
 		}
@@ -25,7 +25,7 @@ const Profile = () => {
 		getData();
 	}, []);
 
-	if (!isLoading && !user) {
+	if ((!isLoading && !user) || isError) {
 		return (
 			<div>
 				<span className={styles.loginBtn}>로그인</span>

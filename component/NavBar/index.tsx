@@ -8,7 +8,12 @@ const NavBar = () => {
 	return (
 		<Nav>
 			<Link href="/">
-				<Image src={logoImage} alt="링크브러리 로고 이미지" />
+				<Image
+					width={133}
+					height={24}
+					src={logoImage}
+					alt="링크브러리 로고 이미지"
+				/>
 			</Link>
 			<Profile />
 		</Nav>

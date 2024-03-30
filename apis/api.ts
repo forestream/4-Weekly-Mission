@@ -73,15 +73,19 @@ export type LinkData = {
 const BASE_URL = "https://bootcamp-api.codeit.kr/api";
 
 export const getProfileData = async (): Promise<Profile> => {
-	const response = await fetch(`${BASE_URL}/users/1`);
+	try {
+		const response = await fetch(`${BASE_URL}/users/1`);
 
-	if (!response.ok) {
-		throw new Error("로그인이 실패했습니다.");
+		if (!response.ok) {
+			throw new Error(`${response.status} 에러`);
+		}
+
+		const data = await response.json();
+
+		return data;
+	} catch (error) {
+		throw error;
 	}
-
-	const data = await response.json();
-
-	return data;
 };
 
 export const getSharedFolder = async (): Promise<SharedFolder> => {
