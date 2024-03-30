@@ -5,25 +5,27 @@ import LinkItems from "@/component/LinkItems";
 import LinkSearchInput from "@/component/LinkSearchInput";
 import { Container } from "@/styles/Shared";
 
-const SharedPage = () => {
-	const [folderData, setFolderData] = useState<SharedFolder["folder"] | null>(
-		null
-	);
-	const [sharedLinks, setSharedLinks] = useState<
-		SharedFolder["folder"]["links"]
-	>([]);
+export async function getStaticProps() {
+	const data = await getSharedFolder();
+	const folderData = data.folder;
+	const sharedLinks = data.folder.links;
 
-	const getData = async () => {
-		try {
-			const data = await getSharedFolder();
-			setFolderData(data.folder);
-			setSharedLinks(data.folder.links);
-		} catch (error) {}
+	return {
+		props: {
+			folderData,
+			sharedLinks
+		}
 	};
+}
 
-	useEffect(() => {
-		getData();
-	}, []);
+interface Props {
+	folderData: SharedFolder["folder"] | null;
+	sharedLinks: SharedFolder["folder"]["links"];
+}
+
+const SharedPage = ({ folderData, sharedLinks: initSharedLinks }: Props) => {
+	const [sharedLinks, setSharedLinks] =
+		useState<SharedFolder["folder"]["links"]>(initSharedLinks);
 
 	const handleSearchSubmit = (keyword: string) => {
 		setSharedLinks(
