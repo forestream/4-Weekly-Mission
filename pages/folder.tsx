@@ -44,14 +44,9 @@ export async function getServerSideProps(context: any) {
 interface Props {
 	folders: FolderListDatum[];
 	links: LinkDatum[];
-	loading: boolean;
 }
 
-const FolderPage = ({
-	folders,
-	links: initLinks,
-	loading: isLoading
-}: Props) => {
+const FolderPage = ({ folders, links: initLinks }: Props) => {
 	const router = useRouter();
 	const [links, setLinks] = useState(initLinks);
 	const [selectedFolder, setSelectedFolder] = useState<FolderListDatum>(ALL);
@@ -127,7 +122,7 @@ const FolderPage = ({
 					{selectedFolder.name}
 					<FolderOption selectedFolder={selectedFolder} />
 				</FolderName>
-				<LinkItems folders={folders} links={links} isLoading={isLoading} />
+				<LinkItems folders={folders} links={initLinks} isLoading={false} />
 				<MobileAddFolderButton />
 			</Container>
 			{!addLinkIntersecting && !footerIntersecting && (
