@@ -113,7 +113,7 @@ export const getSavedFolderList = async (): Promise<FolderList> => {
 };
 
 export const getLinkData = async (
-	selectedFolderId: number | "ALL"
+	selectedFolderId: string | "ALL"
 ): Promise<LinkData> => {
 	const query =
 		selectedFolderId && selectedFolderId !== "ALL"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SharedFolder, getSharedFolder } from "@/apis/api";
 import FolderOwner from "@/component/FolderOwner";
 import LinkItems from "@/component/LinkItems";
@@ -29,7 +29,7 @@ const SharedPage = ({ folderData, sharedLinks: initSharedLinks }: Props) => {
 
 	const handleSearchSubmit = (keyword: string) => {
 		setSharedLinks(
-			sharedLinks.filter(
+			initSharedLinks.filter(
 				(link) =>
 					link.url.includes(keyword) ||
 					link.title.includes(keyword) ||

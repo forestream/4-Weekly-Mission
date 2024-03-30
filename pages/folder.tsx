@@ -13,6 +13,7 @@ import BottomLinkAddInput from "@/component/BottomLinkAddInput";
 import FolderList from "@/component/FolderList";
 import LinkAddInput from "@/component/LinkAddInput";
 import LinkSearchInput from "@/component/LinkSearchInput";
+import { useRouter } from "next/router";
 
 const ALL: FolderListDatum = {
 	id: "ALL",
@@ -25,59 +26,53 @@ const ALL: FolderListDatum = {
 	user_id: 0
 };
 
-const FolderPage = () => {
-	const [folders, setFolders] = useState<FolderListDatum[]>([]);
+export async function getServerSideProps(context: any) {
+	const { folderId } = context.query;
+	const { data: folders } = await getSavedFolderList();
+	folders.unshift(ALL);
+	const { data: links } = await getLinkData(folderId);
+
+	return {
+		props: {
+			folders,
+			links
+		}
+	};
+}
+
+interface Props {
+	folders: FolderListDatum[];
+	links: LinkDatum[];
+}
+
+const FolderPage = ({ folders, links: initLinks }: Props) => {
+	const router = useRouter();
+	const [links, setLinks] = useState(initLinks);
 	const [selectedFolder, setSelectedFolder] = useState<FolderListDatum>(ALL);
-	const [links, setLinks] = useState<LinkDatum[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const addLinkRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
 	const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
 	const [footerIntersecting, setFooterIntersecting] = useState(false);
 
 	useEffect(() => {
-		const getData = async () => {
-			try {
-				setIsLoading(true);
-				const { data } = await getSavedFolderList();
-				setFolders([ALL, ...data]);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		getData();
-	}, []);
+		setLinks(initLinks);
+	}, [initLinks]);
 
 	const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-		const findFolder: any = folders.find(
-			(item) => String(item.id) === (e.target as HTMLLIElement).id
+		const folderClicked = (e.target as HTMLLIElement).id;
+		const query = folderClicked === "ALL" ? "" : `?folderId=${folderClicked}`;
+		router.push(query);
+
+		const folderFound: any = folders.find(
+			(item) => String(item.id) === folderClicked
 		);
-
-		setSelectedFolder(findFolder);
+		setSelectedFolder(folderFound);
 	};
-
-	useEffect(() => {
-		const getData = async () => {
-			try {
-				setIsLoading(true);
-				const { data } = await getLinkData(selectedFolder.id);
-				setLinks(data);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		getData();
-	}, [selectedFolder]);
 
 	const handleSearchSubmit = (keyword: string) => {
 		setLinks(
-			links.filter(
+			initLinks.filter(
 				(link) =>
 					link.url?.includes(keyword) ||
 					link.title?.includes(keyword) ||
