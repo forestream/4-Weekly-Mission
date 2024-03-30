@@ -5,14 +5,7 @@ import LoadingProfile from "./LoadingProfile";
 import Image from "next/image";
 
 const Profile = () => {
-	const [user, setUser] = useState<ProfileDatum>({
-		auth_id: "",
-		created_at: "",
-		email: "",
-		id: 0,
-		image_source: "",
-		name: ""
-	});
+	const [user, setUser] = useState<ProfileDatum | null>(null);
 
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -32,19 +25,27 @@ const Profile = () => {
 		getData();
 	}, []);
 
+	if (!isLoading && !user) {
+		return (
+			<div>
+				<span className={styles.loginBtn}>로그인</span>
+			</div>
+		);
+	}
+
 	return (
 		<>
 			{isLoading && <LoadingProfile />}
-			{user ? (
+			{user && (
 				<div className={styles.Profile}>
 					<div className={styles.ProfileImage}>
-						<Image fill src={user.image_source} alt="사용자 프로필 이미지" />
+						<Image
+							fill
+							src={(user as ProfileDatum).image_source}
+							alt="사용자 프로필 이미지"
+						/>
 					</div>
-					<span>{user.email}</span>
-				</div>
-			) : (
-				<div>
-					<span className={styles.loginBtn}>로그인</span>
+					<span>{(user as ProfileDatum).email}</span>
 				</div>
 			)}
 		</>
