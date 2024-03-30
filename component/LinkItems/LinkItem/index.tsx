@@ -16,12 +16,12 @@ interface Props {
 const LinkItem = ({ folders, link }: Props) => {
 	const [kebabOpen, setKebabOpen] = useState(false);
 
-	const CREATED_AT = useRef<Date>();
-	if ("createdAt" in link) CREATED_AT.current = new Date(link.createdAt);
-	if ("created_at" in link) CREATED_AT.current = new Date(link.created_at);
-	const YEAR = CREATED_AT.current?.getFullYear();
-	const MONTH = CREATED_AT.current?.getMonth();
-	const DATE = CREATED_AT.current?.getDate();
+	const CREATED_AT = new Date(
+		(link as SharedFolderLink).createdAt || (link as LinkDatum).created_at
+	);
+	const YEAR = CREATED_AT.getFullYear();
+	const MONTH = CREATED_AT.getMonth();
+	const DATE = CREATED_AT.getDate();
 	const CREATED_DATE = `${YEAR}. ${MONTH ? MONTH + 1 : MONTH}. ${DATE}`;
 
 	const handleClick = (e: MouseEvent) => {
