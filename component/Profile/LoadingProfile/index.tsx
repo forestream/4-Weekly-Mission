@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { LoadingAnimation } from "./style";
+import styles from "./LoadingProgile.module.css";
 
 const LoadingProfileImg = styled.div`
   width: 2rem;
@@ -20,7 +21,7 @@ const LoadingProfileEmail = styled.div`
 const LoadingProfile = () => {
   return (
     <LoadingAnimation>
-      <div className="Profile">
+      <div className={styles.Profile}>
         <LoadingProfileImg />
         <LoadingProfileEmail />
       </div>
