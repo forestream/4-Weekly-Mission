@@ -1,0 +1,50 @@
+import { ChangeEvent, FormEvent, useState } from "react";
+import linkImg from "@/public/images/link.svg";
+import AddToFolderModal from "../AddToFolderModal";
+import { LinkAddForm, Div } from "./style";
+import { FolderListDatum } from "@/apis/api";
+import Image from "next/image";
+
+interface Props {
+	folders: FolderListDatum[];
+}
+
+const LinkAddInput = ({ folders }: Props) => {
+	const [link, setLink] = useState("");
+	const [addToFolderModalOpen, setAddToFolderModalOpen] = useState(false);
+
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setLink(e.target.value);
+	};
+
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
+		setAddToFolderModalOpen(true);
+	};
+
+	return (
+		<>
+			<Div>
+				<LinkAddForm onSubmit={handleSubmit}>
+					<Image src={linkImg} alt="링크 이미지" />
+					<input
+						id="linkEntered"
+						placeholder="링크를 추가해 보세요"
+						value={link}
+						onChange={handleChange}
+					/>
+					<button type="submit">추가하기</button>
+				</LinkAddForm>
+			</Div>
+			{addToFolderModalOpen && (
+				<AddToFolderModal
+					link={link}
+					setAddToFolderModalOpen={setAddToFolderModalOpen}
+					folders={folders}
+				/>
+			)}
+		</>
+	);
+};
+
+export default LinkAddInput;
