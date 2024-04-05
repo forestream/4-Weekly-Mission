@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Signup.module.css";
 import checkEmailValidity from "@/utils/checkEmailValidity";
-import checkPasswordValidity from "@/utils/checkPasswordValidity";
+import checkNewPassword from "@/utils/checkNewPassword";
+import confirmPassword from "@/utils/confirmPassword";
 
 const Signup = () => {
 	return (
@@ -27,12 +28,12 @@ const Signup = () => {
 					type="email"
 				></Input>
 				<Input
-					checkValidity={checkPasswordValidity}
+					checkValidity={checkNewPassword}
 					placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
 					type="password"
 				></Input>
 				<Input
-					checkValidity={checkPasswordValidity}
+					checkValidity={confirmPassword}
 					placeholder="비밀번호와 일치하는 값을 입력해 주세요."
 					type="confirmPassword"
 				></Input>

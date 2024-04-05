@@ -2,7 +2,8 @@ import Image from "next/image";
 import styles from "./Input.module.css";
 import onImg from "@/public/images/eye-on.svg";
 import offImg from "@/public/images/eye-off.svg";
-import { FocusEvent, useState } from "react";
+import { ChangeEvent, FocusEvent, useState } from "react";
+import confirmPassword from "@/utils/confirmPassword";
 
 interface Props {
 	className?: string;
@@ -16,10 +17,10 @@ interface Props {
 	setSubmitFail?: (state: string) => any;
 }
 
-const TYPE_KOREAN: { [index: string]: string } = {
-	email: "이메일",
-	password: "비밀번호",
-	confirmPassword: "비밀번호 확인"
+const TYPE_KOREAN: { [index: string]: string[] } = {
+	email: ["email", "이메일"],
+	password: ["password", "비밀번호"],
+	confirmPassword: ["password", "비밀번호 확인"]
 };
 
 export default function Input({
@@ -35,7 +36,7 @@ export default function Input({
 	const [validityMessage, setValidityMessage] = useState("");
 	const [isVisible, setIsVisible] = useState(false);
 
-	const handleChange = (e: any) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (setSubmitFail) setSubmitFail("");
 		const { value } = e.target;
 		setInputContent(value.trimStart().replaceAll(" ", ""));
@@ -58,12 +59,12 @@ export default function Input({
 		<>
 			<div className={styles.inputContainer}>
 				<label htmlFor={type} className={styles.label}>
-					{TYPE_KOREAN[type]}
+					{TYPE_KOREAN[type][1]}
 				</label>
 				<input
 					required
 					id={type}
-					type={isVisible ? "text" : type}
+					type={isVisible ? "text" : TYPE_KOREAN[type][0]}
 					className={`${styles.input} ${
 						submitFail || !isValid ? styles.inputError : ""
 					} ${className}`}
@@ -72,19 +73,20 @@ export default function Input({
 					placeholder={placeholder}
 					value={inputContent}
 				/>
-				{type === "password" && inputContent.trim().length > 0 && (
-					<button
-						type="button"
-						onClick={toggleIsVisible}
-						className={styles.eyeIcon}
-					>
-						<Image
-							fill
-							src={isVisible ? onImg : offImg}
-							alt={isVisible ? "비밀번호 보기" : "비밀번호 숨기기"}
-						/>
-					</button>
-				)}
+				{TYPE_KOREAN[type][0] === "password" &&
+					inputContent.trim().length > 0 && (
+						<button
+							type="button"
+							onClick={toggleIsVisible}
+							className={styles.eyeIcon}
+						>
+							<Image
+								fill
+								src={isVisible ? onImg : offImg}
+								alt={isVisible ? "비밀번호 보기" : "비밀번호 숨기기"}
+							/>
+						</button>
+					)}
 				{(submitFail || !isValid) && (
 					<p className={styles.error}>{submitFail || validityMessage}</p>
 				)}
