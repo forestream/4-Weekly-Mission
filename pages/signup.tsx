@@ -15,8 +15,8 @@ const Signup = () => {
 				이미 회원이신가요? <Link href="/signin">로그인 하기</Link>
 			</p>
 			<form>
-				<Input></Input>
-				<Input></Input>
+				<Input type=""></Input>
+				<Input type=""></Input>
 			</form>
 		</>
 	);

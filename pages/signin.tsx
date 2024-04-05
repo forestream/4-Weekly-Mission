@@ -1,4 +1,6 @@
 import Input from "@/component/Input";
+import checkEmailValidity from "@/utils/checkEmailValidity";
+import checkPasswordValidity from "@/utils/checkPasswordValidity";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,8 +18,16 @@ const Signin = () => {
 				<Link href="/signup">회원 가입하기</Link>
 			</p>
 			<form>
-				<Input placeholder={"이메일을 입력해주세요."}></Input>
-				<Input placeholder={"비밀번호를 입력해주세요."}></Input>
+				<Input
+					placeholder={"이메일을 입력해주세요."}
+					type="email"
+					checkValidity={checkEmailValidity}
+				></Input>
+				<Input
+					placeholder={"비밀번호를 입력해주세요."}
+					type="password"
+					checkValidity={checkPasswordValidity}
+				></Input>
 			</form>
 		</>
 	);
