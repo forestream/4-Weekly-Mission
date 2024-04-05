@@ -1,12 +1,13 @@
 .inputContainer {
 	position: relative;
+	width: 400px;
 }
 
 .input {
-	width: 33rem;
+	width: 100%;
 	border: 1px solid #ccd5e3;
 	border-radius: 8px;
-	padding: 16px;
+	padding: 15px;
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 26px;
@@ -17,7 +18,7 @@
 	width: 16px;
 	height: 16px;
 	transform: translateY(-50%);
-	right: 36px;
+	right: 16px;
 	top: 50%;
 	border: none;
 	background: none;
