@@ -4,12 +4,16 @@ import { LinkImage, StarButton } from "../style";
 import "../LinkItems.module.css";
 import { MouseEvent, useRef, useState } from "react";
 import Kebab from "../Kebab";
-import { SharedFolderLink, LinkDatum } from "../../../apis/api";
+import {
+	SharedFolderLink,
+	LinkDatum,
+	FolderListDatum
+} from "../../../apis/api";
 import Image from "next/image";
 import styles from "./LinkItem.module.css";
 
 interface Props {
-	folders: any;
+	folders: FolderListDatum[];
 	link: LinkDatum | SharedFolderLink;
 }
 
@@ -20,9 +24,9 @@ const LinkItem = ({ folders, link }: Props) => {
 		(link as SharedFolderLink).createdAt || (link as LinkDatum).created_at
 	);
 	const YEAR = CREATED_AT.getFullYear();
-	const MONTH = CREATED_AT.getMonth();
+	const MONTH = CREATED_AT.getMonth() + 1;
 	const DATE = CREATED_AT.getDate();
-	const CREATED_DATE = `${YEAR}. ${MONTH ? MONTH + 1 : MONTH}. ${DATE}`;
+	const CREATED_DATE = `${YEAR}. ${MONTH}. ${DATE}`;
 
 	const handleClick = (e: MouseEvent) => {
 		e.preventDefault();
@@ -44,7 +48,7 @@ const LinkItem = ({ folders, link }: Props) => {
 				}
 			>
 				<StarButton>
-					<Image alt="즐겨찾기" src={starButtonImg} />
+					<Image width={30} height={30} alt="즐겨찾기" src={starButtonImg} />
 				</StarButton>
 			</LinkImage>
 			<div className={styles.createdAt}>
