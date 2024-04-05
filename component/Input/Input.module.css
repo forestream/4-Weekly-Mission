@@ -1,6 +1,12 @@
 .inputContainer {
 	position: relative;
 	width: 400px;
+	margin-bottom: 36px;
+}
+
+.label {
+	position: relative;
+	left: 0.5rem;
 }
 
 .input {
@@ -11,6 +17,7 @@
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 26px;
+	margin-top: 12px;
 }
 
 .eyeIcon {
@@ -19,7 +26,7 @@
 	height: 16px;
 	transform: translateY(-50%);
 	right: 16px;
-	top: 50%;
+	top: 68%;
 	border: none;
 	background: none;
 	cursor: pointer;
@@ -32,6 +39,7 @@
 .error {
 	margin-top: 5px;
 	color: #ff5b56;
+	position: absolute;
 }
 
 .input:focus-visible {
