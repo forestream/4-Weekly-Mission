@@ -12,13 +12,14 @@ interface Props {
 		valid: boolean;
 		message?: string;
 	};
-	signinFail: string;
-	setSigninFail: (state: string) => any;
+	submitFail?: string;
+	setSubmitFail?: (state: string) => any;
 }
 
 const TYPE_KOREAN: { [index: string]: string } = {
 	email: "이메일",
-	password: "비밀번호"
+	password: "비밀번호",
+	confirmPassword: "비밀번호 확인"
 };
 
 export default function Input({
@@ -26,8 +27,8 @@ export default function Input({
 	placeholder = "",
 	type = "",
 	checkValidity,
-	signinFail,
-	setSigninFail
+	submitFail,
+	setSubmitFail
 }: Props) {
 	const [inputContent, setInputContent] = useState("");
 	const [isValid, setIsValid] = useState(true);
@@ -35,7 +36,7 @@ export default function Input({
 	const [isVisible, setIsVisible] = useState(false);
 
 	const handleChange = (e: any) => {
-		setSigninFail("");
+		if (setSubmitFail) setSubmitFail("");
 		const { value } = e.target;
 		setInputContent(value.trimStart().replaceAll(" ", ""));
 	};
@@ -64,7 +65,7 @@ export default function Input({
 					id={type}
 					type={isVisible ? "text" : type}
 					className={`${styles.input} ${
-						!signinFail && isValid ? "" : styles.inputError
+						submitFail || !isValid ? styles.inputError : ""
 					} ${className}`}
 					onChange={handleChange}
 					onBlur={handleBlur}
@@ -84,8 +85,8 @@ export default function Input({
 						/>
 					</button>
 				)}
-				{(signinFail || !isValid) && (
-					<p className={styles.error}>{signinFail || validityMessage}</p>
+				{(submitFail || !isValid) && (
+					<p className={styles.error}>{submitFail || validityMessage}</p>
 				)}
 			</div>
 		</>

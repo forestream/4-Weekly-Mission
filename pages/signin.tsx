@@ -10,7 +10,6 @@ import styles from "@/styles/Signin.module.css";
 
 const Signin = () => {
 	const router = useRouter();
-	const [signinFail, setSigninFail] = useState(false);
 	const [emailMessage, setEmailMessage] = useState("");
 	const [passwordMessage, setPasswordMessage] = useState("");
 
@@ -19,7 +18,7 @@ const Signin = () => {
 		const target = e.target as any;
 		const [email, password] = [target[0].value, target[1].value];
 		try {
-			const res = await axios.post("/sign-in", { email, password });
+			await axios.post("/sign-in", { email, password });
 			router.push("/folder");
 		} catch (error) {
 			setEmailMessage("이메일을 확인해 주세요.");
@@ -46,15 +45,15 @@ const Signin = () => {
 					placeholder="이메일을 입력해주세요."
 					type="email"
 					checkValidity={checkEmailValidity}
-					signinFail={emailMessage}
-					setSigninFail={setEmailMessage}
+					submitFail={emailMessage}
+					setSubmitFail={setEmailMessage}
 				></Input>
 				<Input
 					placeholder="비밀번호를 입력해주세요."
 					type="password"
 					checkValidity={checkPasswordValidity}
-					signinFail={passwordMessage}
-					setSigninFail={setPasswordMessage}
+					submitFail={passwordMessage}
+					setSubmitFail={setPasswordMessage}
 				></Input>
 				<button>로그인</button>
 			</form>

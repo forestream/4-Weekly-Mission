@@ -1,12 +1,12 @@
 .inputContainer {
 	position: relative;
 	width: 400px;
-	margin-bottom: 36px;
+	margin-bottom: 32px;
 }
 
 .label {
 	position: relative;
-	left: 0.5rem;
+	left: 0.3rem;
 }
 
 .input {
