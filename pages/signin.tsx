@@ -19,12 +19,12 @@ const Signin = () => {
 			</p>
 			<form>
 				<Input
-					placeholder={"이메일을 입력해주세요."}
+					placeholder="이메일을 입력해주세요."
 					type="email"
 					checkValidity={checkEmailValidity}
 				></Input>
 				<Input
-					placeholder={"비밀번호를 입력해주세요."}
+					placeholder="비밀번호를 입력해주세요."
 					type="password"
 					checkValidity={checkPasswordValidity}
 				></Input>
