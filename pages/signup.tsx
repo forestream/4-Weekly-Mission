@@ -55,12 +55,14 @@ const Signup = () => {
 
 	return (
 		<div className={styles.Container}>
-			<Image
-				src="images/linkbrary.svg"
-				alt="링크브러리 로고"
-				width={210}
-				height={40}
-			></Image>
+			<Link href="/">
+				<Image
+					src="images/linkbrary.svg"
+					alt="링크브러리 로고"
+					width={210}
+					height={40}
+				></Image>
+			</Link>
 			<p className={styles.memberCheck}>
 				이미 회원이신가요?{" "}
 				<Link href="/signin" className={styles.link}>
