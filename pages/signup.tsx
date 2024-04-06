@@ -14,13 +14,33 @@ const Signup = () => {
 	const router = useRouter();
 	const [emailMessage, setEmailMessage] = useState("");
 	const [passwordMessage, setPasswordMessage] = useState("");
+	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		console.log(e);
 		e.preventDefault();
 		const target = e.target as any;
-		const [email, password] = [target[0].value, target[1].value];
+		const [email, password, confirm] = [
+			target[0].value,
+			target[1].value,
+			target[3].value
+		];
 
-		checkNewPassword({ value: password } as HTMLInputElement);
+		const passwordValidity = checkNewPassword({
+			value: password
+		} as HTMLInputElement);
+		const confirmPasswordValidity = confirmPassword({
+			value: confirm
+		} as HTMLInputElement);
+
+		if (!passwordValidity.valid) {
+			setPasswordMessage(passwordValidity.message as string);
+			return;
+		}
+		if (!confirmPasswordValidity.valid) {
+			setConfirmPasswordMessage(confirmPasswordValidity.message as string);
+			return;
+		}
 
 		try {
 			const res = await instance.post("/sign-up", { email, password });
@@ -67,6 +87,8 @@ const Signup = () => {
 					checkValidity={confirmPassword}
 					placeholder="비밀번호와 일치하는 값을 입력해 주세요."
 					type="confirmPassword"
+					submitFail={confirmPasswordMessage}
+					setSubmitFail={setConfirmPasswordMessage}
 				></Input>
 				<LoginBtn>회원가입</LoginBtn>
 			</form>
