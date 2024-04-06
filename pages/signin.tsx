@@ -4,18 +4,21 @@ import checkPasswordValidity from "@/utils/checkPasswordValidity";
 import axios from "@/lib/axios";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Signin.module.css";
 import LoginBtn from "@/component/LoginBtn";
+import SocialLogin from "@/component/SocialLogin";
 
 const Signin = () => {
 	const router = useRouter();
 	const [emailMessage, setEmailMessage] = useState("");
 	const [passwordMessage, setPasswordMessage] = useState("");
 
-	const loggedIn = window.localStorage.getItem("accessToken");
-	if (loggedIn) router.push("/folder");
+	useEffect(() => {
+		const loggedIn = window.localStorage.getItem("accessToken");
+		if (loggedIn) router.push("/folder");
+	}, []);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -66,6 +69,7 @@ const Signin = () => {
 				></Input>
 				<LoginBtn>로그인</LoginBtn>
 			</form>
+			<SocialLogin />
 		</div>
 	);
 };

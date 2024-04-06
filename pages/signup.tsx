@@ -6,9 +6,10 @@ import checkNewPassword from "@/utils/checkNewPassword";
 import confirmPassword from "@/utils/confirmPassword";
 import LoginBtn from "@/component/LoginBtn";
 import checkNewEmail from "@/utils/checkNewEmail";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import instance from "@/lib/axios";
 import { useRouter } from "next/router";
+import SocialLogin from "@/component/SocialLogin";
 
 const Signup = () => {
 	const router = useRouter();
@@ -16,8 +17,10 @@ const Signup = () => {
 	const [passwordMessage, setPasswordMessage] = useState("");
 	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
-	const loggedIn = window.localStorage.getItem("accessToken");
-	if (loggedIn) router.push("/folder");
+	useEffect(() => {
+		const loggedIn = window.localStorage.getItem("accessToken");
+		if (loggedIn) router.push("/folder");
+	}, []);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		console.log(e);
@@ -74,7 +77,6 @@ const Signup = () => {
 					로그인 하기
 				</Link>
 			</p>
-
 			<form onSubmit={handleSubmit}>
 				<Input
 					checkValidity={checkNewEmail}
@@ -99,6 +101,7 @@ const Signup = () => {
 				></Input>
 				<LoginBtn>회원가입</LoginBtn>
 			</form>
+			<SocialLogin />
 		</div>
 	);
 };
