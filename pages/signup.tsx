@@ -2,10 +2,10 @@ import Input from "@/component/Input";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Signup.module.css";
-import checkEmailValidity from "@/utils/checkEmailValidity";
 import checkNewPassword from "@/utils/checkNewPassword";
 import confirmPassword from "@/utils/confirmPassword";
 import LoginBtn from "@/component/LoginBtn";
+import checkNewEmail from "@/utils/checkNewEmail";
 
 const Signup = () => {
 	return (
@@ -22,9 +22,10 @@ const Signup = () => {
 					로그인 하기
 				</Link>
 			</p>
+
 			<form>
 				<Input
-					checkValidity={checkEmailValidity}
+					checkValidity={checkNewEmail}
 					placeholder="이메일을 입력해 주세요."
 					type="email"
 				></Input>

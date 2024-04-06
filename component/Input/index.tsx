@@ -9,10 +9,15 @@ interface Props {
 	className?: string;
 	placeholder?: string;
 	type: string;
-	checkValidity?: (target: HTMLInputElement) => {
-		valid: boolean;
-		message?: string;
-	};
+	checkValidity?: (target: HTMLInputElement) =>
+		| Promise<{
+				valid: boolean;
+				message?: string;
+		  }>
+		| {
+				valid: boolean;
+				message?: string;
+		  };
 	submitFail?: string;
 	setSubmitFail?: (state: string) => any;
 }
@@ -43,9 +48,9 @@ export default function Input({
 	};
 
 	// blur 시 input 에러 검사
-	const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+	const handleBlur = async (e: FocusEvent<HTMLInputElement>) => {
 		if (checkValidity) {
-			const { valid, message = "" } = checkValidity(e.target);
+			const { valid, message = "" } = await checkValidity(e.target);
 			setIsValid(valid);
 			setValidityMessage(message);
 		}
