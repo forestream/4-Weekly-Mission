@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const Ul = styled.ul`
-  ${({ isLoading }) =>
-    isLoading &&
-    `
+	${({ isLoading }) =>
+		isLoading &&
+		`
     li.isLoading {
       padding: 1rem 2rem;
       line-height: 1rem;
@@ -12,32 +12,31 @@ export const Ul = styled.ul`
     }
   `}
 
-  padding: 0;
+	padding: 0;
 
-  .selected {
-    background-color: #6d6afe;
-    color: white;
-  }
+	.selected {
+		background-color: #6d6afe;
+		color: white;
+	}
 
-  li {
-    display: inline-block;
-    padding: 8px 12px;
-    border: 1px solid #6d6afe;
-    border-radius: 5px;
-    margin: 0 8px 12px 0;
-    font-size: 1rem;
-    line-height: 1rem;
+	li {
+		display: inline-block;
+		padding: 8px 12px;
+		border: 1px solid #6d6afe;
+		border-radius: 5px;
+		margin: 0 8px 12px 0;
+		line-height: 1.6rem;
 
-    &:hover {
-      background-color: #6d6afe;
-      color: white;
-      cursor: pointer;
-    }
-  }
+		&:hover {
+			background-color: #6d6afe;
+			color: white;
+			cursor: pointer;
+		}
+	}
 `;
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `;
