@@ -11,7 +11,7 @@ const checkNewEmail = async (target: HTMLInputElement) => {
 	try {
 		await instance.post("/check-email", { email: target.value });
 	} catch (error: any) {
-		return { valid: false, message: "이미 존재하는 이메일입니다" };
+		return { valid: false, message: error.response.data.error.message };
 	}
 
 	return { valid: true };
