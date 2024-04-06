@@ -5,6 +5,7 @@ import styles from "@/styles/Signup.module.css";
 import checkEmailValidity from "@/utils/checkEmailValidity";
 import checkNewPassword from "@/utils/checkNewPassword";
 import confirmPassword from "@/utils/confirmPassword";
+import LoginBtn from "@/component/LoginBtn";
 
 const Signup = () => {
 	return (
@@ -37,7 +38,7 @@ const Signup = () => {
 					placeholder="비밀번호와 일치하는 값을 입력해 주세요."
 					type="confirmPassword"
 				></Input>
-				<button>로그인</button>
+				<LoginBtn>회원가입</LoginBtn>
 			</form>
 		</div>
 	);

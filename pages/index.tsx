@@ -13,6 +13,11 @@ export default function Home() {
 			<Link href="/shared">/shared</Link>
 			<br />
 			<Link href="/folder">/folder</Link>
+			<br />
+			<Link href="/signin">/signin</Link>
+			<br />
+			<Link href="/signup">/signup</Link>
+			<br />
 		</>
 	);
 }

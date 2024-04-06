@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Signin.module.css";
+import LoginBtn from "@/component/LoginBtn";
 
 const Signin = () => {
 	const router = useRouter();
@@ -55,7 +56,7 @@ const Signin = () => {
 					submitFail={passwordMessage}
 					setSubmitFail={setPasswordMessage}
 				></Input>
-				<button>로그인</button>
+				<LoginBtn>로그인</LoginBtn>
 			</form>
 		</div>
 	);

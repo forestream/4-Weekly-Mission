@@ -1,0 +1,11 @@
+.login {
+	width: 40rem;
+	height: 5.3rem;
+	border: none;
+	font-size: 1.8rem;
+	color: var(--White);
+	border-radius: 8px;
+	background: linear-gradient(91deg, #6d6afe 0.12%, #6ae3fe 101.84%);
+	margin-top: 3rem;
+	cursor: pointer;
+}
