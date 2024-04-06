@@ -16,6 +16,9 @@ const Signup = () => {
 	const [passwordMessage, setPasswordMessage] = useState("");
 	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
+	const loggedIn = window.localStorage.getItem("accessToken");
+	if (loggedIn) router.push("/folder");
+
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		console.log(e);
 		e.preventDefault();
@@ -44,7 +47,9 @@ const Signup = () => {
 
 		try {
 			const res = await instance.post("/sign-up", { email, password });
-			console.log(res);
+
+			window.localStorage.setItem("accessToken", res.data.data.accessToken);
+
 			router.push("/folder");
 		} catch (error) {
 			console.log(error);

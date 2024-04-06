@@ -14,12 +14,18 @@ const Signin = () => {
 	const [emailMessage, setEmailMessage] = useState("");
 	const [passwordMessage, setPasswordMessage] = useState("");
 
+	const loggedIn = window.localStorage.getItem("accessToken");
+	if (loggedIn) router.push("/folder");
+
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const target = e.target as any;
 		const [email, password] = [target[0].value, target[1].value];
 		try {
-			await axios.post("/sign-in", { email, password });
+			const res = await axios.post("/sign-in", { email, password });
+
+			window.localStorage.setItem("accessToken", res.data.data.accessToken);
+
 			router.push("/folder");
 		} catch (error) {
 			setEmailMessage("이메일을 확인해 주세요.");
