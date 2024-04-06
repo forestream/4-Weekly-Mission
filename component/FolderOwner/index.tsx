@@ -20,13 +20,12 @@ const FolderOwner = ({
 }) => {
 	return (
 		<div className={styles.FolderOwner}>
-			<div style={{ position: "relative", width: "100%", height: "100%" }}>
-				<Image
-					fill
-					src={owner.profileImageSource}
-					alt="폴더 소유자 프로필 이미지"
-				/>
-			</div>
+			<Image
+				width={40}
+				height={40}
+				src={owner.profileImageSource}
+				alt="폴더 소유자 프로필 이미지"
+			/>
 			<div>{owner.name}</div>
 			<SharedPageName>{name}</SharedPageName>
 		</div>

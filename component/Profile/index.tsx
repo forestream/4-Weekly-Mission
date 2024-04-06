@@ -41,7 +41,6 @@ const Profile = () => {
 					<div className={styles.ProfileImage}>
 						<Image
 							fill
-							sizes="28px"
 							src={(user as ProfileDatum).image_source}
 							alt="사용자 프로필 이미지"
 						/>
