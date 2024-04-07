@@ -74,6 +74,7 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 	// IntersectionObserver
 	const handleIntersect = (entries: IntersectionObserverEntry[]) => {
 		entries.forEach((entry) => {
+			console.log(entry);
 			if (entry.target.id === "addLink")
 				setAddLinkIntersecting(entry.isIntersecting);
 			if (entry.target.id === "footer")
@@ -92,6 +93,11 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		}
 
 		return () => {
+			if (addLinkRef.current && footerRef.current) {
+				console.log("exists");
+				observer.unobserve(addLinkRef.current);
+				observer.unobserve(footerRef.current);
+			}
 			observer.disconnect();
 		};
 	}, []);

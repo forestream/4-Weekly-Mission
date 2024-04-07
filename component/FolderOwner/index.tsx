@@ -7,17 +7,16 @@ const SharedPageName = styled.div`
 	font-weight: 600;
 `;
 
-const FolderOwner = ({
-	name,
-	owner
-}: {
+interface Props {
 	name: string;
 	owner: {
 		id: number;
 		name: string;
 		profileImageSource: string;
 	};
-}) => {
+}
+
+const FolderOwner = ({ name, owner }: Props) => {
 	return (
 		<div className={styles.FolderOwner}>
 			<Image

@@ -23,7 +23,7 @@ const LinkItems = ({ folders, links = [], isLoading }: Props) => {
 			{links.map((link) => (
 				<LinkItem folders={folders} key={link.id} link={link} />
 			))}
-			{links.length !== 0 || <div>저장된 링크가 없습니다.</div>}
+			{links.length === 0 && <div>저장된 링크가 없습니다.</div>}
 		</div>
 	);
 };
