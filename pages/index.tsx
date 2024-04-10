@@ -10,9 +10,15 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
+
 			<Link href="/shared">/shared</Link>
 			<br />
 			<Link href="/folder">/folder</Link>
+			<br />
+			<Link href="/signin">/signin</Link>
+			<br />
+			<Link href="/signup">/signup</Link>
+			<br />
 		</>
 	);
 }

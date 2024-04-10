@@ -1,36 +1,48 @@
-.inputcontent {
-  position: relative;
-  width: 35rem;
+.inputContainer {
+	position: relative;
+	width: 400px;
+	margin-bottom: 32px;
+}
+
+.label {
+	position: relative;
+	left: 0.3rem;
 }
 
 .input {
-  width: 33rem;
-  border: 1px solid #ccd5e3;
-  border-radius: 8px;
-  padding: 16px;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
+	width: 100%;
+	border: 1px solid #ccd5e3;
+	border-radius: 8px;
+	padding: 15px;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 26px;
+	margin-top: 12px;
 }
 
 .eyeIcon {
-  position: absolute;
-  right: 15px;
-  top: 20px;
-  border: none;
-  background: none;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	transform: translateY(-50%);
+	right: 16px;
+	top: 68%;
+	border: none;
+	background: none;
+	cursor: pointer;
 }
 
 .inputError {
-  border: 1px solid #ff5b56;
+	border: 1px solid #ff5b56;
 }
 
 .error {
-  margin-top: 5px;
-  color: #ff5b56;
+	margin-top: 5px;
+	color: #ff5b56;
+	position: absolute;
 }
 
 .input:focus-visible {
-  border: 1px solid #6d6afe;
-  outline: none;
+	border: 1px solid #6d6afe;
+	outline: none;
 }

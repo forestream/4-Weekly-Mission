@@ -1,67 +1,101 @@
 import Image from "next/image";
 import styles from "./Input.module.css";
-import onImg from "@/public/image/eye-on.svg";
-import offImg from "@/public/image/eye-off.svg";
-import { useState } from "react";
+import onImg from "@/public/images/eye-on.svg";
+import offImg from "@/public/images/eye-off.svg";
+import { ChangeEvent, FocusEvent, useState } from "react";
+import confirmPassword from "@/utils/confirmPassword";
 
-export default function Input({ className = "", ...props }) {
+interface Props {
+	className?: string;
+	placeholder?: string;
+	type: string;
+	checkValidity?: (target: HTMLInputElement) =>
+		| Promise<{
+				valid: boolean;
+				message?: string;
+		  }>
+		| {
+				valid: boolean;
+				message?: string;
+		  };
+	submitFail?: string;
+	setSubmitFail?: (state: string) => any;
+}
+
+const TYPE_KOREAN: { [index: string]: string[] } = {
+	email: ["email", "이메일"],
+	password: ["password", "비밀번호"],
+	confirmPassword: ["password", "비밀번호 확인"]
+};
+
+export default function Input({
+	className = "",
+	placeholder = "",
+	type = "",
+	checkValidity,
+	submitFail,
+	setSubmitFail
+}: Props) {
 	const [inputContent, setInputContent] = useState("");
-	const [inputError, setInputError] = useState(false);
-	const [isWrite, setIsWrite] = useState(false);
-	const [isVisible, setIsVisible] = useState(true);
+	const [isValid, setIsValid] = useState(true);
+	const [validityMessage, setValidityMessage] = useState("");
+	const [isVisible, setIsVisible] = useState(false);
 
-	const handleChange = (e: any) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		if (setSubmitFail) setSubmitFail("");
 		const { value } = e.target;
-
-		setInputContent(value);
-		setInputError(value.trim() === "");
-		setIsWrite(value.trim() !== ""); // eye-on, eye-off 버튼 활성화 판단
-		console.log(inputContent, inputError, isWrite);
+		setInputContent(value.trimStart().replaceAll(" ", ""));
 	};
 
-	// input에 에러가 있는 경우 blur 설정하도록 정의
-	const handleBlur = () => {
-		setInputError(inputContent.trim() === "");
+	// blur 시 input 에러 검사
+	const handleBlur = async (e: FocusEvent<HTMLInputElement>) => {
+		if (checkValidity) {
+			const { valid, message = "" } = await checkValidity(e.target);
+			setIsValid(valid);
+			setValidityMessage(message);
+		}
 	};
 
-	const toggleVisibility = () => {
+	const toggleIsVisible = () => {
 		setIsVisible(!isVisible);
 	};
 
 	return (
 		<>
-			<p className={styles.inputcontent}>
+			<div className={styles.inputContainer}>
+				<label htmlFor={type} className={styles.label}>
+					{TYPE_KOREAN[type][1]}
+				</label>
 				<input
 					required
-					type={isVisible ? "text" : "password"}
+					id={type}
+					type={isVisible ? "text" : TYPE_KOREAN[type][0]}
 					className={`${styles.input} ${
-						inputError ? styles.inputError : ""
+						submitFail || !isValid ? styles.inputError : ""
 					} ${className}`}
-					placeholder="입력"
 					onChange={handleChange}
 					onBlur={handleBlur}
-					{...props}
+					placeholder={placeholder}
+					value={inputContent}
 				/>
-				<button onClick={toggleVisibility} className={styles.eyeIcon}>
-					{isWrite ? (
-						<button onClick={toggleVisibility} className={styles.eyeIcon}>
-							{isVisible ? (
-								<Image src={onImg} width={16} height={16} alt="비밀번호 보기" />
-							) : (
-								<Image
-									src={offImg}
-									width={16}
-									height={16}
-									alt="비밀번호 숨기기"
-								/>
-							)}
+				{TYPE_KOREAN[type][0] === "password" &&
+					inputContent.trim().length > 0 && (
+						<button
+							type="button"
+							onClick={toggleIsVisible}
+							className={styles.eyeIcon}
+						>
+							<Image
+								fill
+								src={isVisible ? onImg : offImg}
+								alt={isVisible ? "비밀번호 보기" : "비밀번호 숨기기"}
+							/>
 						</button>
-					) : (
-						""
 					)}
-				</button>
-			</p>
-			{inputError && <p className={styles.error}>값을 입력해 주세요.</p>}
+				{(submitFail || !isValid) && (
+					<p className={styles.error}>{submitFail || validityMessage}</p>
+				)}
+			</div>
 		</>
 	);
 }

@@ -4,28 +4,28 @@ import styles from "./LinkItems.module.css";
 import LinkSkeleton from "./LinkSkeleton";
 
 interface Props {
-  folders?: FolderListDatum[];
-  links: (SharedFolderLink | LinkDatum)[];
-  isLoading?: boolean;
+	folders: FolderListDatum[];
+	links: (SharedFolderLink | LinkDatum)[];
+	isLoading?: boolean;
 }
 
 const LinkItems = ({ folders, links = [], isLoading }: Props) => {
-  if (isLoading) {
-    return (
-      <div className={styles.LinkItems}>
-        <LinkSkeleton />
-      </div>
-    );
-  }
+	if (isLoading) {
+		return (
+			<div className={styles.LinkItems}>
+				<LinkSkeleton />
+			</div>
+		);
+	}
 
-  return (
-    <div className={styles.LinkItems}>
-      {links.map((link) => (
-        <LinkItem folders={folders} key={link.id} link={link} />
-      ))}
-      {links.length !== 0 || <div>저장된 링크가 없습니다.</div>}
-    </div>
-  );
+	return (
+		<div className={styles.LinkItems}>
+			{links.map((link) => (
+				<LinkItem folders={folders} key={link.id} link={link} />
+			))}
+			{links.length === 0 && <div>저장된 링크가 없습니다.</div>}
+		</div>
+	);
 };
 
 export default LinkItems;

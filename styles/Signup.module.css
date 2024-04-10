@@ -1,0 +1,19 @@
+.Container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--Gray-10);
+	height: 100vh;
+}
+
+.memberCheck {
+	margin: 1.6rem 0 3rem;
+}
+
+.link {
+	color: var(--Primary);
+	position: relative;
+	left: 0.8rem;
+	bottom: 0.4rem;
+}

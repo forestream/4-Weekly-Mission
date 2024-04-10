@@ -1,0 +1,39 @@
+.container {
+	width: 40rem;
+	border: 1px solid var(--Gray-30);
+	border-radius: 8px;
+	padding: 12px 24px;
+	margin: 4rem 0;
+	background-color: var(--Gray-20);
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.text {
+	flex-grow: 1;
+}
+
+.google {
+	border-radius: 9999px;
+	width: 42px;
+	height: 42px;
+	position: relative;
+	background-color: white;
+	border: 1px solid var(--Gray-30);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.kakao {
+	border-radius: 9999px;
+	width: 42px;
+	height: 42px;
+	position: relative;
+	background-color: #f5e14b;
+	border: 1px solid var(--Gray-30);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

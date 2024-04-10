@@ -45,7 +45,7 @@ const SharedPage = ({ folderData, sharedLinks: initSharedLinks }: Props) => {
 			<FolderOwner name={folderData.name} owner={folderData.owner} />
 			<Container>
 				<LinkSearchInput onSubmit={handleSearchSubmit} />
-				<LinkItems links={sharedLinks} />
+				<LinkItems folders={[]} links={sharedLinks} />
 			</Container>
 		</>
 	);
