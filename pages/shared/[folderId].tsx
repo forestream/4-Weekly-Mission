@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SharedFolder, getSharedFolder } from "@/apis/api";
+import { LinkDatum, SharedFolder, getSharedFolder } from "@/apis/api";
 import FolderOwner from "@/component/FolderOwner";
 import LinkItems from "@/component/LinkItems";
 import LinkSearchInput from "@/component/LinkSearchInput";
@@ -13,12 +13,17 @@ export async function getServerSideProps(context: any) {
 
 	const { data: owner } = await instance.get(`/users/${folderData.user_id}`);
 	const ownerData = owner.data[0];
-	console.log(ownerData);
+
+	const { data: links } = await instance.get(
+		`/users/${folderData.user_id}/links?folderId=${folderId}`
+	);
+	const linksData = links.data;
 
 	return {
 		props: {
 			folderData,
-			ownerData
+			ownerData,
+			linksData
 		}
 	};
 }
@@ -39,20 +44,19 @@ export interface Props {
 		email: string;
 		auth_id: string;
 	};
-	sharedLinks: SharedFolder["folder"]["links"];
+	linksData: LinkDatum[];
 }
 
 const SharedPage = ({
 	folderData,
 	ownerData,
-	sharedLinks: initSharedLinks
+	linksData: initLinksData
 }: Props) => {
-	const [sharedLinks, setSharedLinks] =
-		useState<SharedFolder["folder"]["links"]>(initSharedLinks);
+	const [sharedLinks, setSharedLinks] = useState<LinkDatum[]>(initLinksData);
 
 	const handleSearchSubmit = (keyword: string) => {
 		setSharedLinks(
-			initSharedLinks.filter(
+			initLinksData.filter(
 				(link) =>
 					link.url.includes(keyword) ||
 					link.title.includes(keyword) ||

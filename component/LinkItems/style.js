@@ -1,7 +1,10 @@
 import styled, { keyframes } from "styled-components";
 
 export const LinkImage = styled.div`
-	background-image: url("${(props) => props["data-image"]}");
+	background-image: url("${(props) => {
+		console.log(props);
+		return props["data-image"];
+	}}");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 100%;

@@ -12,7 +12,7 @@ export const calculateTimePassed = (createdAt) => {
 	if (MINUTES_PASSED < 2) return `1 minute ago`;
 	if (MINUTES_PASSED <= 59) return `${Math.round(MINUTES_PASSED)} minutes ago`;
 	if (HOURS_PASSED <= 1) return `1 hour ago`;
-	if (HOURS_PASSED <= 23) return `${Math.round(HOURS_PASSED)} housrs ago`;
+	if (HOURS_PASSED <= 23) return `${Math.round(HOURS_PASSED)} hours ago`;
 	if (DAYS_PASSED <= 1) return `1 day ago`;
 	if (DAYS_PASSED <= 30) return `${Math.round(DAYS_PASSED)} days ago`;
 	if (MONTHS_PASSED <= 1) return `1 month ago`;
