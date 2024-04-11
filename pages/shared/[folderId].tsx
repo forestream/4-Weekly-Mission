@@ -4,26 +4,49 @@ import FolderOwner from "@/component/FolderOwner";
 import LinkItems from "@/component/LinkItems";
 import LinkSearchInput from "@/component/LinkSearchInput";
 import { Container } from "@/styles/Shared";
+import instance from "@/lib/axios";
 
-export async function getStaticProps() {
-	const data = await getSharedFolder();
-	const folderData = data.folder;
-	const sharedLinks = data.folder.links;
+export async function getServerSideProps(context: any) {
+	const { folderId } = context.query;
+	const { data: folder } = await instance.get(`/folders/${folderId}`);
+	const folderData = folder.data[0];
+
+	const { data: owner } = await instance.get(`/users/${folderData.user_id}`);
+	const ownerData = owner.data[0];
+	console.log(ownerData);
 
 	return {
 		props: {
 			folderData,
-			sharedLinks
+			ownerData
 		}
 	};
 }
 
-interface Props {
-	folderData: SharedFolder["folder"] | null;
+export interface Props {
+	folderData: {
+		id: number;
+		created_at: string;
+		name: string;
+		user_id: number;
+		favorite: boolean;
+	} | null;
+	ownerData: {
+		id: number;
+		created_at: string;
+		name: string;
+		image_source: string;
+		email: string;
+		auth_id: string;
+	};
 	sharedLinks: SharedFolder["folder"]["links"];
 }
 
-const SharedPage = ({ folderData, sharedLinks: initSharedLinks }: Props) => {
+const SharedPage = ({
+	folderData,
+	ownerData,
+	sharedLinks: initSharedLinks
+}: Props) => {
 	const [sharedLinks, setSharedLinks] =
 		useState<SharedFolder["folder"]["links"]>(initSharedLinks);
 
@@ -42,7 +65,7 @@ const SharedPage = ({ folderData, sharedLinks: initSharedLinks }: Props) => {
 
 	return (
 		<>
-			<FolderOwner name={folderData.name} owner={folderData.owner} />
+			<FolderOwner name={folderData.name} owner={ownerData} />
 			<Container>
 				<LinkSearchInput onSubmit={handleSearchSubmit} />
 				<LinkItems folders={[]} links={sharedLinks} />
