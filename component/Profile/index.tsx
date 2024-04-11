@@ -24,7 +24,6 @@ const Profile = () => {
 				headers: { Authorization: window.localStorage.getItem("accessToken") }
 			});
 			console.log(res);
-			// const data = await getProfileData();
 			setUser(res.data.data[0]);
 		} catch (error: any) {
 			setIsError(true);

@@ -74,7 +74,6 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 	// IntersectionObserver
 	const handleIntersect = (entries: IntersectionObserverEntry[]) => {
 		entries.forEach((entry) => {
-			console.log(entry);
 			if (entry.target.id === "addLink")
 				setAddLinkIntersecting(entry.isIntersecting);
 			if (entry.target.id === "footer")
