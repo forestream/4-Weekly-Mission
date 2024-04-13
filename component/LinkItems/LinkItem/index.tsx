@@ -18,7 +18,6 @@ interface Props {
 }
 
 const LinkItem = ({ folders, link }: Props) => {
-	console.log(link);
 	const [kebabOpen, setKebabOpen] = useState(false);
 
 	const CREATED_AT = new Date(

@@ -13,6 +13,7 @@ import BottomLinkAddInput from "@/component/BottomLinkAddInput";
 import FolderList from "@/component/FolderList";
 import LinkAddInput from "@/component/LinkAddInput";
 import LinkSearchInput from "@/component/LinkSearchInput";
+import { useRouter } from "next/router";
 
 const ALL: FolderListDatum = {
 	id: "ALL",
@@ -53,6 +54,13 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 	const footerRef = useRef<HTMLDivElement>(null);
 	const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
 	const [footerIntersecting, setFooterIntersecting] = useState(false);
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!window.localStorage.getItem("accessToken")) {
+			router.push("/signin");
+		}
+	}, [router]);
 
 	useEffect(() => {
 		setLinks(initLinks);
