@@ -52,13 +52,15 @@ interface Props {
 	folderId: string;
 }
 
-const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
+const FolderPage = ({ folderId, links: initLinks }: Props) => {
+	const [folders, setFolders] = useState([ALL]);
 	const [links, setLinks] = useState(initLinks);
 	const addLinkRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
 	const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
 	const [footerIntersecting, setFooterIntersecting] = useState(false);
 	const router = useRouter();
+	console.log("folderpage");
 
 	useEffect(() => {
 		if (!window.localStorage.getItem("accessToken")) {
@@ -69,6 +71,17 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 	useEffect(() => {
 		setLinks(initLinks);
 	}, [initLinks]);
+
+	async function fetchFolders() {
+		const { data } = await instance.get("/folders");
+		console.log(data);
+		data.data.folder.unshift(ALL);
+		setFolders(data.data.folder);
+	}
+
+	useEffect(() => {
+		fetchFolders();
+	}, []);
 
 	const folderFound: any = folders.find((item) => String(item.id) === folderId);
 

@@ -9,6 +9,10 @@ interface Props {
 }
 
 const FolderList = ({ folders, selectedFolder }: Props) => {
+	if (!folders) {
+		return <></>;
+	}
+
 	return (
 		<Container>
 			<Ul>

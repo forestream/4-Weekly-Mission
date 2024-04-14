@@ -14,6 +14,7 @@ import FolderList from "@/component/FolderList";
 import LinkAddInput from "@/component/LinkAddInput";
 import LinkSearchInput from "@/component/LinkSearchInput";
 import { useRouter } from "next/router";
+import instance from "@/lib/axios";
 
 const ALL: FolderListDatum = {
 	id: "ALL",
@@ -29,13 +30,10 @@ const ALL: FolderListDatum = {
 export async function getServerSideProps(context: any) {
 	let { folderId } = context.query;
 	folderId = folderId === undefined ? "ALL" : folderId;
-	const { data: folders } = await getSavedFolderList();
-	folders.unshift(ALL);
 	const { data: links } = await getLinkData(folderId);
 
 	return {
 		props: {
-			folders,
 			links,
 			folderId
 		}
@@ -48,7 +46,8 @@ interface Props {
 	folderId: string;
 }
 
-const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
+const FolderPage = ({ folderId, links: initLinks }: Props) => {
+	const [folders, setFolders] = useState([ALL]);
 	const [links, setLinks] = useState(initLinks);
 	const addLinkRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
@@ -66,7 +65,19 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		setLinks(initLinks);
 	}, [initLinks]);
 
+	async function fetchFolders() {
+		const { data } = await instance.get("/folders");
+		data.data.folder.unshift(ALL);
+		console.log(data);
+		setFolders(data.data.folder);
+	}
+
+	useEffect(() => {
+		fetchFolders();
+	}, []);
+
 	const folderFound: any = folders.find((item) => String(item.id) === folderId);
+	console.log(folderFound);
 
 	const handleSearchSubmit = (keyword: string) => {
 		setLinks(
@@ -109,6 +120,10 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		};
 	}, []);
 
+	if (!folderFound) {
+		return <></>;
+	}
+
 	return (
 		<>
 			<div id="addLink" ref={addLinkRef}>
@@ -118,7 +133,7 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 				<LinkSearchInput onSubmit={handleSearchSubmit} />
 				<FolderList folders={folders} selectedFolder={folderFound} />
 				<FolderName>
-					{folderFound.name}
+					{folderFound && folderFound.name}
 					<FolderOption selectedFolder={folderFound} />
 				</FolderName>
 				<LinkItems folders={folders} links={links} isLoading={false} />
