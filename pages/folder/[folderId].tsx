@@ -16,6 +16,11 @@ import LinkSearchInput from "@/component/LinkSearchInput";
 import { useRouter } from "next/router";
 import instance from "@/lib/axios";
 
+instance.interceptors.request.use((config) => {
+	config.headers.Authorization = localStorage.getItem("accessToken");
+	return config;
+});
+
 const ALL: FolderListDatum = {
 	id: "ALL",
 	name: "전체",
