@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import styles from "./FolderOwner.module.css";
 import Image from "next/image";
+import { Props as FolderIdProps } from "@/pages/shared/[folderId]";
 
 const SharedPageName = styled.div`
 	font-size: 2.5rem;
@@ -9,11 +10,7 @@ const SharedPageName = styled.div`
 
 interface Props {
 	name: string;
-	owner: {
-		id: number;
-		name: string;
-		profileImageSource: string;
-	};
+	owner: FolderIdProps["ownerData"];
 }
 
 const FolderOwner = ({ name, owner }: Props) => {
@@ -22,7 +19,7 @@ const FolderOwner = ({ name, owner }: Props) => {
 			<Image
 				width={40}
 				height={40}
-				src={owner.profileImageSource}
+				src={owner.image_source}
 				alt="폴더 소유자 프로필 이미지"
 			/>
 			<div>{owner.name}</div>

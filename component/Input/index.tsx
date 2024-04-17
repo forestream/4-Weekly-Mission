@@ -57,7 +57,7 @@ export default function Input({
 	};
 
 	const toggleIsVisible = () => {
-		setIsVisible(!isVisible);
+		setIsVisible((prev) => !prev);
 	};
 
 	return (
@@ -86,7 +86,8 @@ export default function Input({
 							className={styles.eyeIcon}
 						>
 							<Image
-								fill
+								width={16}
+								height={16}
 								src={isVisible ? onImg : offImg}
 								alt={isVisible ? "비밀번호 보기" : "비밀번호 숨기기"}
 							/>

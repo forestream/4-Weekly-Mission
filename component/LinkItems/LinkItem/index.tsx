@@ -44,7 +44,7 @@ const LinkItem = ({ folders, link }: Props) => {
 				data-image={
 					(link as SharedFolderLink).imageSource ||
 					(link as LinkDatum).image_source ||
-					"images/card-default.png"
+					"/images/card-default.png"
 				}
 			>
 				<StarButton>

@@ -18,12 +18,15 @@ const LinkItems = ({ folders, links = [], isLoading }: Props) => {
 		);
 	}
 
+	if (!links.length) {
+		return <div>저장된 링크가 없습니다.</div>;
+	}
+
 	return (
 		<div className={styles.LinkItems}>
 			{links.map((link) => (
 				<LinkItem folders={folders} key={link.id} link={link} />
 			))}
-			{links.length === 0 && <div>저장된 링크가 없습니다.</div>}
 		</div>
 	);
 };

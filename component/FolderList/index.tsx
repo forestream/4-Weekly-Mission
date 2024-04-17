@@ -1,7 +1,6 @@
 import { Ul, Container } from "./style";
 import AddFolder from "./AddFolder";
 import { FolderListDatum } from "../../apis/api";
-import { MouseEvent } from "react";
 import Link from "next/link";
 
 interface Props {
@@ -10,13 +9,17 @@ interface Props {
 }
 
 const FolderList = ({ folders, selectedFolder }: Props) => {
+	if (!folders) {
+		return <></>;
+	}
+
 	return (
 		<Container>
 			<Ul>
 				{folders.map((item) => (
 					<Link
 						key={item.id}
-						href={item.id === "ALL" ? "" : `?folderId=${item.id}`}
+						href={item.id === "ALL" ? "/folder" : `/folder/${item.id}`}
 					>
 						<li
 							key={item.id}
