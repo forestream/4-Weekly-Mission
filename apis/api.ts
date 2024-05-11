@@ -105,6 +105,11 @@ export const getAllLinks = async () => {
 	return await response.json();
 };
 
+export const getLinks = async (folderId: string) => {
+	const response = await fetch(`${BASE_URL}/folders/${folderId}/links`);
+	return await response.json();
+};
+
 // part3 api
 export const getProfileData = async (): Promise<Profile> => {
 	try {

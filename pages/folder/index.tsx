@@ -4,7 +4,8 @@ import {
 	getLinkData,
 	LinkDatum,
 	getFolders,
-	getAllLinks
+	getAllLinks,
+	getLinks
 } from "@/apis/api";
 import LinkItems from "@/component/LinkItems";
 import { Container, FolderName } from "@/styles/Folder";
@@ -16,29 +17,30 @@ import LinkAddInput from "@/component/LinkAddInput";
 import LinkSearchInput from "@/component/LinkSearchInput";
 import { useRouter } from "next/router";
 import instance from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 instance.interceptors.request.use((config) => {
 	config.headers.Authorization = localStorage.getItem("accessToken");
 	return config;
 });
 
-const ALL: FolderListDatum = {
-	id: "ALL",
-	name: "전체",
-	favorite: false,
-	created_at: "",
-	link: {
-		count: 0
-	},
-	user_id: 0
-};
-
 export async function getServerSideProps(context: any) {
-	let { folderId } = context.query;
-	folderId = folderId === undefined ? "ALL" : folderId;
+	const ALL: FolderListDatum = {
+		id: "ALL",
+		name: "전체",
+		favorite: false,
+		created_at: "",
+		link: {
+			count: 0
+		},
+		user_id: 0
+	};
+
+	const folderId = ALL.id;
 
 	const folders = await getFolders();
 	folders.unshift(ALL);
+
 	const links = await getAllLinks();
 
 	return {
@@ -56,9 +58,8 @@ interface Props {
 	folderId: string;
 }
 
-const FolderPage = ({ folderId, links: initLinks }: Props) => {
-	const [folders, setFolders] = useState([ALL]);
-	const [links, setLinks] = useState(initLinks);
+const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
+	const [selectedFolder, setSelectedFolder] = useState(folderId);
 	const addLinkRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
 	const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
@@ -71,22 +72,15 @@ const FolderPage = ({ folderId, links: initLinks }: Props) => {
 		}
 	}, [router]);
 
-	useEffect(() => {
-		setLinks(initLinks);
-	}, [initLinks]);
+	const { data: links } = useQuery({
+		queryKey: ["links", selectedFolder],
+		queryFn: () => getLinks(selectedFolder),
+		initialData: initLinks
+	});
 
-	async function fetchFolders() {
-		const { data } = await instance.get("/folders");
-		console.log(data);
-		data.data.folder.unshift(ALL);
-		setFolders(data.data.folder);
-	}
-
-	useEffect(() => {
-		fetchFolders();
-	}, []);
-
-	const folderFound: any = folders.find((item) => String(item.id) === folderId);
+	const folderFound: any = folders.find(
+		(item) => String(item.id) === selectedFolder
+	);
 
 	const handleSearchSubmit = (keyword: string) => {
 		setLinks(
@@ -99,7 +93,7 @@ const FolderPage = ({ folderId, links: initLinks }: Props) => {
 		);
 	};
 
-	// IntersectionObserver
+	// Intersection Observer
 	const handleIntersect = (entries: IntersectionObserverEntry[]) => {
 		entries.forEach((entry) => {
 			if (entry.target.id === "addLink")
@@ -110,24 +104,30 @@ const FolderPage = ({ folderId, links: initLinks }: Props) => {
 	};
 
 	useEffect(() => {
+		const addLink = addLinkRef.current;
+		const footer = footerRef.current;
+
 		const observer = new IntersectionObserver(handleIntersect, {
 			threshold: 0.4
 		});
 
-		if (addLinkRef.current && footerRef.current) {
-			observer.observe(addLinkRef.current);
-			observer.observe(footerRef.current);
+		if (addLink && footer) {
+			observer.observe(addLink);
+			observer.observe(footer);
 		}
 
 		return () => {
-			if (addLinkRef.current && footerRef.current) {
-				console.log("exists");
-				observer.unobserve(addLinkRef.current);
-				observer.unobserve(footerRef.current);
+			if (addLink && footer) {
+				observer.unobserve(addLink);
+				observer.unobserve(footer);
 			}
 			observer.disconnect();
 		};
 	}, []);
+
+	const handleClick = (newFolderId: string) => {
+		setSelectedFolder(newFolderId);
+	};
 
 	return (
 		<>
@@ -136,7 +136,11 @@ const FolderPage = ({ folderId, links: initLinks }: Props) => {
 			</div>
 			<Container>
 				<LinkSearchInput onSubmit={handleSearchSubmit} />
-				<FolderList folders={folders} selectedFolder={folderFound} />
+				<FolderList
+					folders={folders}
+					selectedFolder={folderFound}
+					onClick={handleClick}
+				/>
 				<FolderName>
 					{folderFound.name}
 					<FolderOption selectedFolder={folderFound} />

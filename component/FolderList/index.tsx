@@ -1,34 +1,35 @@
 import { Ul, Container } from "./style";
 import AddFolder from "./AddFolder";
 import { FolderListDatum } from "../../apis/api";
-import Link from "next/link";
+import { MouseEvent } from "react";
 
 interface Props {
 	folders: FolderListDatum[];
 	selectedFolder: FolderListDatum;
+	onClick: (folderId: string) => void;
 }
 
-const FolderList = ({ folders, selectedFolder }: Props) => {
+const FolderList = ({ folders, selectedFolder, onClick }: Props) => {
 	if (!folders) {
 		return <></>;
 	}
+
+	const handleClick = (e: MouseEvent) => {
+		onClick((e.target as Element).id);
+	};
 
 	return (
 		<Container>
 			<Ul>
 				{folders.map((item) => (
-					<Link
+					<li
 						key={item.id}
-						href={item.id === "ALL" ? "/folder" : `/folder/${item.id}`}
+						id={item.id.toString()}
+						className={`${selectedFolder.id === item.id ? "selected" : ""}`}
+						onClick={handleClick}
 					>
-						<li
-							key={item.id}
-							id={item.id.toString()}
-							className={`${selectedFolder.id === item.id ? "selected" : ""}`}
-						>
-							{item.name}
-						</li>
-					</Link>
+						{item.name}
+					</li>
 				))}
 			</Ul>
 			<AddFolder />

@@ -24,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			<NavBar />
 			<Component {...pageProps} />
 			<Footer />
+			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
 }
