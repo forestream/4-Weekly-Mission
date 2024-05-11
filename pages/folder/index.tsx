@@ -35,8 +35,6 @@ const ALL: FolderListDatum = {
 export async function getServerSideProps(context: any) {
 	let { folderId } = context.query;
 	folderId = folderId === undefined ? "ALL" : folderId;
-	// const { data } = await instance.get("/folders");
-	// const folders = data.folder;
 
 	const { data: folders } = await getSavedFolderList();
 	folders.unshift(ALL);

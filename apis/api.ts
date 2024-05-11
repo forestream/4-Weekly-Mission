@@ -1,3 +1,5 @@
+import { BASE_URL } from "./constants";
+
 // getProfileData
 export type ProfileDatum = {
 	auth_id: string;
@@ -70,7 +72,16 @@ export type LinkData = {
 	data: LinkDatum[];
 };
 
-const BASE_URL = "https://bootcamp-api.codeit.kr/api";
+export const postUser = async (user: any): Promise<any> => {
+	const response = await fetch(`${BASE_URL}/auth/sign-in`, {
+		method: "POST",
+		headers: {
+			"content-type": "application/json"
+		},
+		body: JSON.stringify(user)
+	});
+	return await response.json();
+};
 
 export const getProfileData = async (): Promise<Profile> => {
 	try {

@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import styles from "./LoginBtn.module.css";
 
 interface Props {
-	children: any;
+	children: ReactNode;
 }
 
 const LoginBtn = ({ children }: Props) => {

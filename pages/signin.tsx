@@ -1,7 +1,6 @@
 import Input from "@/component/Input";
 import checkEmailValidity from "@/utils/checkEmailValidity";
 import checkPasswordValidity from "@/utils/checkPasswordValidity";
-import axios from "@/lib/axios";
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
@@ -9,8 +8,15 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Signin.module.css";
 import LoginBtn from "@/component/LoginBtn";
 import SocialLogin from "@/component/SocialLogin";
+import { useMutation } from "@tanstack/react-query";
+import { SIGNIN_KEY } from "@/lib/queryKeys";
+import { postUser } from "@/apis/api";
 
 const Signin = () => {
+	const signinMutation = useMutation({
+		mutationKey: [SIGNIN_KEY],
+		mutationFn: (user: any) => postUser(user)
+	});
 	const router = useRouter();
 	const [emailMessage, setEmailMessage] = useState("");
 	const [passwordMessage, setPasswordMessage] = useState("");
@@ -25,9 +31,16 @@ const Signin = () => {
 		const target = e.target as any;
 		const [email, password] = [target[0].value, target[1].value];
 		try {
-			const res = await axios.post("/sign-in", { email, password });
-
-			window.localStorage.setItem("accessToken", res.data.data.accessToken);
+			signinMutation.mutate(
+				{ email, password },
+				{
+					onSuccess: () =>
+						window.localStorage.setItem(
+							"accessToken",
+							signinMutation.data.accessToken
+						)
+				}
+			);
 
 			router.push("/folder");
 		} catch (error) {
