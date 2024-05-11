@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import {
 	FolderListDatum,
-	getSavedFolderList,
 	getLinkData,
-	LinkDatum
+	LinkDatum,
+	getFolders,
+	getAllLinks
 } from "@/apis/api";
 import LinkItems from "@/component/LinkItems";
 import { Container, FolderName } from "@/styles/Folder";
@@ -36,9 +37,9 @@ export async function getServerSideProps(context: any) {
 	let { folderId } = context.query;
 	folderId = folderId === undefined ? "ALL" : folderId;
 
-	const { data: folders } = await getSavedFolderList();
+	const folders = await getFolders();
 	folders.unshift(ALL);
-	const { data: links } = await getLinkData(folderId);
+	const links = await getAllLinks();
 
 	return {
 		props: {
@@ -63,7 +64,6 @@ const FolderPage = ({ folderId, links: initLinks }: Props) => {
 	const [addLinkIntersecting, setAddLinkIntersecting] = useState(false);
 	const [footerIntersecting, setFooterIntersecting] = useState(false);
 	const router = useRouter();
-	console.log("folderpage");
 
 	useEffect(() => {
 		if (!window.localStorage.getItem("accessToken")) {
