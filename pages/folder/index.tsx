@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
 	FolderListDatum,
-	getLinkData,
 	LinkDatum,
 	getFolders,
 	getAllLinks,
@@ -36,8 +35,6 @@ export async function getServerSideProps(context: any) {
 		user_id: 0
 	};
 
-	const folderId = ALL.id;
-
 	const folders = await getFolders();
 	folders.unshift(ALL);
 
@@ -47,7 +44,7 @@ export async function getServerSideProps(context: any) {
 		props: {
 			folders,
 			links,
-			folderId
+			folderId: ALL.id
 		}
 	};
 }
@@ -59,6 +56,7 @@ interface Props {
 }
 
 const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
+	const [links, setLinks] = useState<LinkDatum[]>(initLinks);
 	const [selectedFolder, setSelectedFolder] = useState(folderId);
 	const addLinkRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
@@ -72,20 +70,35 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		}
 	}, [router]);
 
-	const { data: links } = useQuery({
+	const {
+		data: fetchedLinks,
+		isFetching,
+		isSuccess
+	} = useQuery({
 		queryKey: ["links", selectedFolder],
 		queryFn: () => getLinks(selectedFolder),
 		initialData: initLinks
 	});
+
+	useEffect(() => {
+		if (isSuccess) {
+			setLinks(fetchedLinks);
+		}
+	}, [fetchedLinks]);
 
 	const folderFound: any = folders.find(
 		(item) => String(item.id) === selectedFolder
 	);
 
 	const handleSearchSubmit = (keyword: string) => {
+		if (!keyword) {
+			setLinks(fetchedLinks);
+			return;
+		}
+
 		setLinks(
-			initLinks.filter(
-				(link) =>
+			fetchedLinks.filter(
+				(link: LinkDatum) =>
 					link.url?.includes(keyword) ||
 					link.title?.includes(keyword) ||
 					link.description?.includes(keyword)
@@ -145,7 +158,7 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 					{folderFound.name}
 					<FolderOption selectedFolder={folderFound} />
 				</FolderName>
-				<LinkItems folders={folders} links={links} isLoading={false} />
+				<LinkItems folders={folders} links={links} isLoading={isFetching} />
 				<MobileAddFolderButton />
 			</Container>
 			{!addLinkIntersecting && !footerIntersecting && (

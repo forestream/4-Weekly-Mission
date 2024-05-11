@@ -106,6 +106,10 @@ export const getAllLinks = async () => {
 };
 
 export const getLinks = async (folderId: string) => {
+	if (folderId === "ALL") {
+		return await getAllLinks();
+	}
+
 	const response = await fetch(`${BASE_URL}/folders/${folderId}/links`);
 	return await response.json();
 };

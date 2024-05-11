@@ -3,7 +3,7 @@
 	display: grid;
 	grid-template: "1fr 1fr 1fr";
 	gap: 25px 20px;
-	justify-content: center;
+	justify-content: flex-start;
 
 	@media (max-width: 1199px) {
 		grid-template: "1fr 1fr";
