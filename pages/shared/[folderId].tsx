@@ -1,42 +1,37 @@
 import { useState } from "react";
-import { LinkDatum, SharedFolder, getSharedFolder } from "@/apis/api";
+import { LinkDatum, getFolderById, getLinks, getUserById } from "@/apis/api";
 import FolderOwner from "@/component/FolderOwner";
 import LinkItems from "@/component/LinkItems";
 import LinkSearchInput from "@/component/LinkSearchInput";
 import { Container } from "@/styles/Shared";
-import instance from "@/lib/axios";
 
 export async function getServerSideProps(context: any) {
 	const { folderId } = context.query;
-	const { data: folder } = await instance.get(`/folders/${folderId}`);
-	const folderData = folder.data[0];
 
-	const { data: owner } = await instance.get(`/users/${folderData.user_id}`);
-	const ownerData = owner.data[0];
+	const [folder] = await getFolderById(folderId);
 
-	const { data: links } = await instance.get(
-		`/users/${folderData.user_id}/links?folderId=${folderId}`
-	);
-	const linksData = links.data;
+	const [owner] = await getUserById(folder.user_id);
+
+	const links = await getLinks(folderId);
 
 	return {
 		props: {
-			folderData,
-			ownerData,
-			linksData
+			folder,
+			owner,
+			links
 		}
 	};
 }
 
 export interface Props {
-	folderData: {
+	folder: {
 		id: number;
 		created_at: string;
 		name: string;
 		user_id: number;
 		favorite: boolean;
 	} | null;
-	ownerData: {
+	owner: {
 		id: number;
 		created_at: string;
 		name: string;
@@ -44,19 +39,15 @@ export interface Props {
 		email: string;
 		auth_id: string;
 	};
-	linksData: LinkDatum[];
+	links: LinkDatum[];
 }
 
-const SharedPage = ({
-	folderData,
-	ownerData,
-	linksData: initLinksData
-}: Props) => {
-	const [sharedLinks, setSharedLinks] = useState<LinkDatum[]>(initLinksData);
+const SharedPage = ({ folder, owner, links: initLinks }: Props) => {
+	const [sharedLinks, setSharedLinks] = useState<LinkDatum[]>(initLinks);
 
 	const handleSearchSubmit = (keyword: string) => {
 		setSharedLinks(
-			initLinksData.filter(
+			initLinks.filter(
 				(link) =>
 					link.url.includes(keyword) ||
 					link.title.includes(keyword) ||
@@ -65,11 +56,11 @@ const SharedPage = ({
 		);
 	};
 
-	if (!folderData) return <p>저장된 링크가 없습니다.</p>;
+	if (!folder) return <p>저장된 링크가 없습니다.</p>;
 
 	return (
 		<>
-			<FolderOwner name={folderData.name} owner={ownerData} />
+			<FolderOwner name={folder.name} owner={owner} />
 			<Container>
 				<LinkSearchInput onSubmit={handleSearchSubmit} />
 				<LinkItems folders={[]} links={sharedLinks} />

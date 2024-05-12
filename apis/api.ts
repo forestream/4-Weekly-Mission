@@ -114,6 +114,16 @@ export const getLinks = async (folderId: string) => {
 	return await response.json();
 };
 
+export const getFolderById = async (folderId: string) => {
+	const response = await fetch(`${BASE_URL}/folders/${folderId}`);
+	return await response.json();
+};
+
+export const getUserById = async (userId: string) => {
+	const response = await fetch(`${BASE_URL}/users/${userId}`);
+	return await response.json();
+};
+
 // part3 api
 export const getProfileData = async (): Promise<Profile> => {
 	try {
@@ -129,30 +139,6 @@ export const getProfileData = async (): Promise<Profile> => {
 	} catch (error) {
 		throw error;
 	}
-};
-
-export const getSharedFolder = async (): Promise<SharedFolder> => {
-	const response = await fetch(`${BASE_URL}/sample/folder`);
-
-	if (!response.ok) {
-		throw new Error("폴더 정보를 불러오는데 실패했습니다.");
-	}
-
-	const data = await response.json();
-
-	return data;
-};
-
-export const getSavedFolderList = async (): Promise<FolderList> => {
-	const response = await fetch(`${BASE_URL}/users/1/folders`);
-
-	if (!response.ok) {
-		throw new Error("링크 정보를 불러오는데 실패했습니다.");
-	}
-
-	const data = await response.json();
-
-	return data;
 };
 
 export const getLinkData = async (
