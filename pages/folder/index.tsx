@@ -23,7 +23,7 @@ instance.interceptors.request.use((config) => {
 	return config;
 });
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps() {
 	const ALL: FolderListDatum = {
 		id: "ALL",
 		name: "전체",
@@ -84,7 +84,7 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		if (isSuccess) {
 			setLinks(fetchedLinks);
 		}
-	}, [fetchedLinks]);
+	}, [fetchedLinks, isSuccess]);
 
 	const folderFound: any = folders.find(
 		(item) => String(item.id) === selectedFolder
