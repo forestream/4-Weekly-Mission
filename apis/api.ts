@@ -40,16 +40,12 @@ export type SharedFolder = {
 	};
 };
 
-// getSavedFolderList
 export type FolderListDatum = {
+	id: number | "ALL";
 	created_at: string;
 	favorite: boolean;
-	id: number | "ALL";
-	link: {
-		count: number;
-	};
 	name: string;
-	user_id: number;
+	link_count: number;
 };
 
 export type FolderList = {
@@ -89,10 +85,7 @@ export const getFolders = async () => {
 		name: "전체",
 		favorite: false,
 		created_at: "",
-		link: {
-			count: 0
-		},
-		user_id: 0
+		link_count: 0
 	};
 
 	const response = await fetch(`${BASE_URL}/folders`, {
@@ -176,6 +169,19 @@ export const deleteFolderById = async (folderId: string) => {
 	});
 };
 
+export const postLink = async (url: string, folderId: string) => {
+	const response = await fetch(`${BASE_URL}/links`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization:
+				"Bearer " +
+				"eyJhbGciOiJIUzI1NiIsImtpZCI6IktLNE05TGFmMXkzWEI0M0kiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzE2MDA5MjcxLCJpYXQiOjE3MTU0MDQ0NzEsImlzcyI6Imh0dHBzOi8vanB2ZG9weWdibHJlZnpvbmV2ZnEuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjY3YzAxNzRjLTE5MmMtNGUwMS05MTEzLWQ3MmJhOGY5MDRiZSIsImVtYWlsIjoid293bUB2bGRrc2guY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6Indvd21Admxka3NoLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJzdWIiOiI2N2MwMTc0Yy0xOTJjLTRlMDEtOTExMy1kNzJiYThmOTA0YmUifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxNTQwNDQ3MX1dLCJzZXNzaW9uX2lkIjoiODQ1MjBjZWMtMzY1ZS00Yjk5LTkzMWQtNTc3MGZmNjA3MTM1IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.EXiNVzDFZz7wkZ0Q37GA1L0uaGW420NC6r5Flu7wbbw"
+		},
+		body: JSON.stringify({ url, folderId })
+	});
+	return await response.json();
+};
 // part3 api
 export const getProfileData = async (): Promise<Profile> => {
 	try {

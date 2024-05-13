@@ -22,6 +22,10 @@ const BottomLinkAddInput = ({ folders }: Props) => {
 		setAddToFolderModalOpen(true);
 	};
 
+	const clearInput = () => {
+		setLink("");
+	};
+
 	return (
 		<>
 			<Div>
@@ -41,6 +45,7 @@ const BottomLinkAddInput = ({ folders }: Props) => {
 					link={link}
 					setAddToFolderModalOpen={setAddToFolderModalOpen}
 					folders={folders}
+					clearInput={clearInput}
 				/>
 			)}
 		</>
