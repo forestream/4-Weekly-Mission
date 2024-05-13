@@ -32,7 +32,7 @@ export async function getServerSideProps() {
 		props: {
 			folders,
 			links,
-			folderId: ALL.id
+			folderId: "ALL"
 		}
 	};
 }
@@ -81,7 +81,7 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 	}, [fetchedLinks, isSuccess]);
 
 	const folderFound: any = fetchedFolders.find(
-		(item) => String(item.id) === selectedFolder
+		(item: FolderListDatum) => String(item.id) === selectedFolder
 	);
 
 	const handleSearchSubmit = (keyword: string) => {

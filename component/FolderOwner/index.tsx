@@ -10,7 +10,7 @@ const SharedPageName = styled.div`
 
 interface Props {
 	name: string;
-	owner: FolderIdProps["ownerData"];
+	owner: FolderIdProps["owner"];
 }
 
 const FolderOwner = ({ name, owner }: Props) => {
