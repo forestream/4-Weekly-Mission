@@ -165,6 +165,17 @@ export const postFolder = async (name: string) => {
 	return await response.json();
 };
 
+export const deleteFolderById = async (folderId: string) => {
+	await fetch(`${BASE_URL}/folders/${folderId}`, {
+		method: "DELETE",
+		headers: {
+			Authorization:
+				"Bearer " +
+				"eyJhbGciOiJIUzI1NiIsImtpZCI6IktLNE05TGFmMXkzWEI0M0kiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzE2MDA5MjcxLCJpYXQiOjE3MTU0MDQ0NzEsImlzcyI6Imh0dHBzOi8vanB2ZG9weWdibHJlZnpvbmV2ZnEuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjY3YzAxNzRjLTE5MmMtNGUwMS05MTEzLWQ3MmJhOGY5MDRiZSIsImVtYWlsIjoid293bUB2bGRrc2guY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6Indvd21Admxka3NoLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJzdWIiOiI2N2MwMTc0Yy0xOTJjLTRlMDEtOTExMy1kNzJiYThmOTA0YmUifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxNTQwNDQ3MX1dLCJzZXNzaW9uX2lkIjoiODQ1MjBjZWMtMzY1ZS00Yjk5LTkzMWQtNTc3MGZmNjA3MTM1IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.EXiNVzDFZz7wkZ0Q37GA1L0uaGW420NC6r5Flu7wbbw"
+		}
+	});
+};
+
 // part3 api
 export const getProfileData = async (): Promise<Profile> => {
 	try {

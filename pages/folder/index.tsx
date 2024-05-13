@@ -150,7 +150,10 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 				/>
 				<FolderName>
 					{folderFound.name}
-					<FolderOption selectedFolder={folderFound} />
+					<FolderOption
+						selectedFolder={folderFound}
+						setSelectedFolder={setSelectedFolder}
+					/>
 				</FolderName>
 				<LinkItems
 					folders={fetchedFolders}
