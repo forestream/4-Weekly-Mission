@@ -17,7 +17,7 @@ export const ModalBox = styled.div`
 	border-radius: 1rem;
 	justify-content: space-between;
 	align-items: center;
-	padding: 2rem;
+	padding: 32px 40px;
 	width: 360px;
 	height: 240px;
 	position: relative;
@@ -49,7 +49,7 @@ export const ModalBox = styled.div`
 	input {
 		height: 60px;
 		text-align: left;
-		border: 1px solid #6d6afe;
+		border: 1px solid #ccd5e3;
 		border-radius: 8px;
 		padding: 1rem;
 	}
@@ -58,7 +58,7 @@ export const ModalBox = styled.div`
 		padding: 16px 20px;
 		border: none;
 		color: white;
-		font-size: 1rem;
+		font-size: 1.6rem;
 		border-radius: 8px;
 		background: var(
 			--gra-purpleblue-to-skyblue,
