@@ -1,7 +1,4 @@
 import styled from "styled-components";
-import kakaoIcon from "@/public/images/kakao.svg";
-import facebookIcon from "@/public/images/facebook.svg";
-import copyLinkIcon from "@/public/images/link.svg";
 
 export const ModalBackground = styled.div`
 	position: fixed;
@@ -77,24 +74,5 @@ export const ModalBox = styled.div`
 		width: 42px;
 		height: 42px;
 		border-radius: 9999px;
-		&.kakao {
-			background: #fee500 url(${kakaoIcon});
-			background-size: 18px;
-			background-repeat: no-repeat;
-			background-position: center;
-		}
-		&.facebook {
-			background: #1877f2 url(${facebookIcon});
-			background-size: 18px;
-			background-repeat: no-repeat;
-			background-position: center;
-		}
-
-		&.copyLink {
-			background: rgba(157, 157, 157, 0.04) url(${copyLinkIcon});
-			background-size: 18px;
-			background-repeat: no-repeat;
-			background-position: center;
-		}
 	}
 `;

@@ -1,3 +1,4 @@
+import styles from "./ShareFolderModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalBackground, ModalBox } from "./style";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -33,12 +34,12 @@ const ShareFolderModal = ({
 				<p className="folderName">{selectedFolder.name}</p>
 				<div className="linkIcons">
 					<div className="linkIcon">
-						<div className="kakao" />
+						<div className={styles.kakao} />
 						<p>카카오톡</p>
 					</div>
 					<FacebookShareButton url={`${HOST_URL}/shared/${selectedFolder.id}`}>
 						<div className="linkIcon">
-							<div className="facebook" />
+							<div className={styles.facebook} />
 							<p>페이스북</p>
 						</div>
 					</FacebookShareButton>
@@ -47,7 +48,7 @@ const ShareFolderModal = ({
 						onCopy={() => alert(`복사 완료`)}
 					>
 						<div className="linkIcon">
-							<div className="copyLink" />
+							<div className={styles.copyLink} />
 							<p>링크 복사</p>
 						</div>
 					</CopyToClipboard>

@@ -1,0 +1,20 @@
+.kakao {
+	background: #fee500 url("../../public/images/kakao.svg");
+	background-size: 18px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.facebook {
+	background: #1877f2 url("../../public/images/facebook.svg");
+	background-size: 18px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.copyLink {
+	background: rgba(157, 157, 157, 0.04) url("../../public/images/link.svg");
+	background-size: 18px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
