@@ -17,9 +17,10 @@ interface Props {
 	url: string;
 	onClick: (e: MouseEvent) => void;
 	kebabOpen: boolean;
+	linkId: string;
 }
 
-const Kebab = ({ folders, url, onClick, kebabOpen }: Props) => {
+const Kebab = ({ folders, url, onClick, kebabOpen, linkId }: Props) => {
 	const [deleteLinkModalOpen, setDeleteLinkModalOpen] = useState(false);
 	const [addToFolderModalOpen, setAddToFolderModalOpen] = useState(false);
 
@@ -49,6 +50,7 @@ const Kebab = ({ folders, url, onClick, kebabOpen }: Props) => {
 				<DeleteLinkModal
 					url={url}
 					setDeleteLinkModalOpen={setDeleteLinkModalOpen}
+					linkId={linkId}
 				/>
 			)}
 			{addToFolderModalOpen && (

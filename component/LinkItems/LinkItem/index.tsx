@@ -58,6 +58,7 @@ const LinkItem = ({ folders, link }: Props) => {
 					onClick={handleClick}
 					kebabOpen={kebabOpen}
 					url={link.url}
+					linkId={link.id + ""}
 				/>
 			</div>
 			<p className={styles.description}>{link.description}</p>
