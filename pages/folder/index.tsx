@@ -24,19 +24,7 @@ instance.interceptors.request.use((config) => {
 });
 
 export async function getServerSideProps() {
-	const ALL: FolderListDatum = {
-		id: "ALL",
-		name: "전체",
-		favorite: false,
-		created_at: "",
-		link: {
-			count: 0
-		},
-		user_id: 0
-	};
-
 	const folders = await getFolders();
-	folders.unshift(ALL);
 
 	const links = await getAllLinks();
 
@@ -70,6 +58,12 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		}
 	}, [router]);
 
+	const { data: fetchedFolders } = useQuery({
+		queryKey: ["folders"],
+		queryFn: () => getFolders(),
+		initialData: folders
+	});
+
 	const {
 		data: fetchedLinks,
 		isFetching,
@@ -86,7 +80,7 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 		}
 	}, [fetchedLinks, isSuccess]);
 
-	const folderFound: any = folders.find(
+	const folderFound: any = fetchedFolders.find(
 		(item) => String(item.id) === selectedFolder
 	);
 
@@ -145,12 +139,12 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 	return (
 		<>
 			<div id="addLink" ref={addLinkRef}>
-				<LinkAddInput folders={folders} />
+				<LinkAddInput folders={fetchedFolders} />
 			</div>
 			<Container>
 				<LinkSearchInput onSubmit={handleSearchSubmit} />
 				<FolderList
-					folders={folders}
+					folders={fetchedFolders}
 					selectedFolder={folderFound}
 					onClick={handleClick}
 				/>
@@ -158,11 +152,15 @@ const FolderPage = ({ folders, folderId, links: initLinks }: Props) => {
 					{folderFound.name}
 					<FolderOption selectedFolder={folderFound} />
 				</FolderName>
-				<LinkItems folders={folders} links={links} isLoading={isFetching} />
+				<LinkItems
+					folders={fetchedFolders}
+					links={links}
+					isLoading={isFetching}
+				/>
 				<MobileAddFolderButton />
 			</Container>
 			{!addLinkIntersecting && !footerIntersecting && (
-				<BottomLinkAddInput folders={folders} />
+				<BottomLinkAddInput folders={fetchedFolders} />
 			)}
 			<div id="footer" ref={footerRef}></div>
 		</>

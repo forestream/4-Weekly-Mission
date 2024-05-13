@@ -3,7 +3,8 @@ import styles from "./EditFolderNameModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ModalBackground } from "./style";
-import { FolderListDatum } from "../../apis/api";
+import { FolderListDatum, putFolderById } from "../../apis/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
 	setEditModalOpen: (value: boolean) => void;
@@ -12,6 +13,16 @@ interface Props {
 
 const EditFolderNameModal = ({ setEditModalOpen, selectedFolder }: Props) => {
 	const [name, setName] = useState(selectedFolder.name);
+	const queryClient = useQueryClient();
+	const folderMutation = useMutation({
+		mutationKey: ["folder", name],
+		mutationFn: () => putFolderById(selectedFolder.id + "", name),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["folders"]
+			});
+		}
+	});
 
 	const closeModal = () => {
 		setEditModalOpen(false);
@@ -21,22 +32,34 @@ const EditFolderNameModal = ({ setEditModalOpen, selectedFolder }: Props) => {
 		setName(e.target.value);
 	};
 
+	const handleEdit = () => {
+		folderMutation.mutate();
+		closeModal();
+	};
+
 	return (
-		<ModalBackground onClick={closeModal}>
+		<ModalBackground onMouseDown={closeModal}>
 			<div
-				id="EditModal"
-				onClick={(e) => {
+				className={styles.EditModal}
+				onMouseDown={(e) => {
 					e.stopPropagation();
 				}}
 			>
 				<FontAwesomeIcon
 					icon={faXmark}
-					className="EditModalX"
+					className={styles.EditModalX}
 					onClick={closeModal}
 				/>
-				<p id="EditModalText">폴더 이름 변경</p>
-				<input id="EditModalInput" onChange={handleChange} value={name}></input>
-				<button id="EditModalButton" onClick={closeModal}>
+				<p className={styles.EditModalText}>폴더 이름 변경</p>
+				<input
+					className={styles.EditModalInput}
+					onChange={handleChange}
+					onKeyUp={(e) => {
+						if (e.key === "Enter") handleEdit();
+					}}
+					value={name}
+				/>
+				<button className={styles.EditModalButton} onClick={handleEdit}>
 					변경하기
 				</button>
 			</div>

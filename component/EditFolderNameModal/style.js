@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const ModalBackground = styled.div`
 	position: fixed;
 	inset: 0;
+	z-index: 1;
 	background-color: rgba(0, 0, 0, 0.4);
 	display: flex;
 	justify-content: center;
