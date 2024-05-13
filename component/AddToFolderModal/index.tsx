@@ -10,7 +10,7 @@ interface Props {
 	link: string;
 	setAddToFolderModalOpen: (arg: boolean) => void;
 	folders: FolderListDatum[];
-	clearInput: () => void;
+	clearInput?: () => void;
 }
 
 const AddToFolderModal = ({
@@ -30,7 +30,7 @@ const AddToFolderModal = ({
 			queryClient.invalidateQueries({
 				queryKey: ["links"]
 			});
-			clearInput();
+			if (clearInput) clearInput();
 		}
 	});
 
