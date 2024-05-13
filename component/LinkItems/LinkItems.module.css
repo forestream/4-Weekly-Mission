@@ -1,5 +1,5 @@
 .LinkItems {
-	margin: 40px 0 40px;
+	margin: 3rem 0;
 	display: grid;
 	grid-template: "1fr 1fr 1fr";
 	gap: 25px 20px;
@@ -12,4 +12,9 @@
 	@media (max-width: 767px) {
 		grid-template: "1fr";
 	}
+}
+
+.NoLink {
+	margin-top: 2rem;
+	font-size: 2rem;
 }

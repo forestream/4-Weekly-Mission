@@ -19,7 +19,7 @@ const LinkItems = ({ folders, links = [], isLoading }: Props) => {
 	}
 
 	if (!links.length) {
-		return <div>저장된 링크가 없습니다.</div>;
+		return <div className={styles.NoLink}>저장된 링크가 없습니다.</div>;
 	}
 
 	return (
