@@ -73,13 +73,29 @@ export type LinkData = {
 	data: LinkDatum[];
 };
 
-export const postUser = async (user: any): Promise<any> => {
+export type User = {
+	email: string;
+	password: string;
+};
+
+export const postUser = async (user: User): Promise<any> => {
 	const response = await fetch(`${BASE_URL}/auth/sign-in`, {
 		method: "POST",
 		headers: {
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(user)
+		body: JSON.stringify(user),
+	});
+	return await response.json();
+};
+
+export const postSignup = async (user: User) => {
+	const response = await fetch(`${BASE_URL}/auth/sign-up`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(user),
 	});
 	return await response.json();
 };
@@ -90,13 +106,13 @@ export const getFolders = async () => {
 		name: "전체",
 		favorite: false,
 		created_at: "",
-		link_count: 0
+		link_count: 0,
 	};
 
 	const response = await fetch(`${BASE_URL}/folders`, {
 		headers: {
-			Authorization: TEMP_AUTH
-		}
+			Authorization: TEMP_AUTH,
+		},
 	});
 	const folders = await response.json();
 	folders.unshift(ALL);
@@ -106,8 +122,8 @@ export const getFolders = async () => {
 export const getAllLinks = async () => {
 	const response = await fetch(`${BASE_URL}/links`, {
 		headers: {
-			Authorization: TEMP_AUTH
-		}
+			Authorization: TEMP_AUTH,
+		},
 	});
 	return await response.json();
 };
@@ -136,9 +152,9 @@ export const putFolderById = async (folderId: string, name: string) => {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: TEMP_AUTH
+			Authorization: TEMP_AUTH,
 		},
-		body: JSON.stringify({ name })
+		body: JSON.stringify({ name }),
 	});
 	return await response.json();
 };
@@ -148,9 +164,9 @@ export const postFolder = async (name: string) => {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: TEMP_AUTH
+			Authorization: TEMP_AUTH,
 		},
-		body: JSON.stringify({ name })
+		body: JSON.stringify({ name }),
 	});
 	return await response.json();
 };
@@ -159,8 +175,8 @@ export const deleteFolderById = async (folderId: string) => {
 	await fetch(`${BASE_URL}/folders/${folderId}`, {
 		method: "DELETE",
 		headers: {
-			Authorization: TEMP_AUTH
-		}
+			Authorization: TEMP_AUTH,
+		},
 	});
 };
 
@@ -169,9 +185,9 @@ export const postLink = async (url: string, folderId: string) => {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: TEMP_AUTH
+			Authorization: TEMP_AUTH,
 		},
-		body: JSON.stringify({ url, folderId })
+		body: JSON.stringify({ url, folderId }),
 	});
 	return await response.json();
 };
@@ -180,43 +196,7 @@ export const deleteLink = async (linkId: string) => {
 	await fetch(`${BASE_URL}/links/${linkId}`, {
 		method: "DELETE",
 		headers: {
-			Authorization: TEMP_AUTH
-		}
+			Authorization: TEMP_AUTH,
+		},
 	});
-};
-
-// part3 api
-export const getProfileData = async (): Promise<Profile> => {
-	try {
-		const response = await fetch(`${BASE_URL}/users/1`);
-
-		if (!response.ok) {
-			throw new Error(`${response.status} 에러`);
-		}
-
-		const data = await response.json();
-
-		return data;
-	} catch (error) {
-		throw error;
-	}
-};
-
-export const getLinkData = async (
-	selectedFolderId: string | "ALL"
-): Promise<LinkData> => {
-	const query =
-		selectedFolderId && selectedFolderId !== "ALL"
-			? `?folderId=${selectedFolderId}`
-			: ``;
-
-	const response = await fetch(`${BASE_URL}/users/1/links${query}`);
-
-	if (!response.ok) {
-		throw new Error("링크 정보를 불러오는데 실패했습니다.");
-	}
-
-	const data = await response.json();
-
-	return data;
 };

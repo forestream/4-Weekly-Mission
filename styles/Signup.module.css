@@ -17,3 +17,37 @@
 	left: 0.8rem;
 	bottom: 0.4rem;
 }
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
+
+.label {
+	position: relative;
+	left: 0.3rem;
+}
+
+.input {
+	width: 100%;
+	border: 1px solid #ccd5e3;
+	border-radius: 8px;
+	padding: 15px;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 26px;
+	margin-top: 12px;
+	margin-bottom: 2rem;
+}
+
+.button {
+	width: 40rem;
+	height: 5.3rem;
+	border: none;
+	font-size: 1.8rem;
+	color: var(--White);
+	border-radius: 8px;
+	background: linear-gradient(91deg, #6d6afe 0.12%, #6ae3fe 101.84%);
+	margin-top: 3rem;
+	cursor: pointer;
+}

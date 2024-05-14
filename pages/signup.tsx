@@ -1,64 +1,35 @@
-import Input from "@/component/Input";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Signup.module.css";
-import checkNewPassword from "@/utils/checkNewPassword";
-import confirmPassword from "@/utils/confirmPassword";
-import LoginBtn from "@/component/LoginBtn";
-import checkNewEmail from "@/utils/checkNewEmail";
-import { FormEvent, useEffect, useState } from "react";
-import instance from "@/lib/axios";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import SocialLogin from "@/component/SocialLogin";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { User, postSignup } from "@/apis/api";
 
 const Signup = () => {
 	const router = useRouter();
-	const [emailMessage, setEmailMessage] = useState("");
-	const [passwordMessage, setPasswordMessage] = useState("");
-	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
 
 	useEffect(() => {
 		const loggedIn = window.localStorage.getItem("accessToken");
 		if (loggedIn) router.push("/folder");
 	}, []);
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		console.log(e);
-		e.preventDefault();
-		const target = e.target as any;
-		const [email, password, confirm] = [
-			target[0].value,
-			target[1].value,
-			target[3].value
-		];
+	const signupMutation = useMutation({
+		mutationFn: (user: User) => postSignup(user),
+		onSuccess: () => router.push("/signin"),
+	});
 
-		const passwordValidity = checkNewPassword({
-			value: password
-		} as HTMLInputElement);
-		const confirmPasswordValidity = confirmPassword({
-			value: confirm
-		} as HTMLInputElement);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-		if (!passwordValidity.valid) {
-			setPasswordMessage(passwordValidity.message as string);
-			return;
-		}
-		if (!confirmPasswordValidity.valid) {
-			setConfirmPasswordMessage(confirmPasswordValidity.message as string);
-			return;
-		}
-
-		try {
-			const res = await instance.post("/sign-up", { email, password });
-
-			window.localStorage.setItem("accessToken", res.data.data.accessToken);
-
-			router.push("/folder");
-		} catch (error) {
-			console.log(error);
-			setEmailMessage("이메일을 확인해 주세요.");
-			setPasswordMessage("비밀번호를 확인해 주세요");
-		}
+	const onSubmit: SubmitHandler<FieldValues> = (data) => {
+		const { email, password } = data;
+		signupMutation.mutate({ email, password });
 	};
 
 	return (
@@ -77,29 +48,25 @@ const Signup = () => {
 					로그인 하기
 				</Link>
 			</p>
-			<form onSubmit={handleSubmit}>
-				<Input
-					checkValidity={checkNewEmail}
-					placeholder="이메일을 입력해 주세요."
-					type="email"
-					submitFail={emailMessage}
-					setSubmitFail={setEmailMessage}
-				></Input>
-				<Input
-					checkValidity={checkNewPassword}
-					placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
+			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+				<label className={styles.label}>이메일</label>
+				<input
+					className={styles.input}
+					{...register("email", { required: true })}
+				/>
+				<label className={styles.label}>비밀번호</label>
+				<input
+					className={styles.input}
 					type="password"
-					submitFail={passwordMessage}
-					setSubmitFail={setPasswordMessage}
-				></Input>
-				<Input
-					checkValidity={confirmPassword}
-					placeholder="비밀번호와 일치하는 값을 입력해 주세요."
-					type="confirmPassword"
-					submitFail={confirmPasswordMessage}
-					setSubmitFail={setConfirmPasswordMessage}
-				></Input>
-				<LoginBtn>회원가입</LoginBtn>
+					{...register("password", { required: true })}
+				/>
+				<label className={styles.label}>비밀번호 확인</label>
+				<input
+					className={styles.input}
+					type="password"
+					{...register("passwordConfirm", { required: true })}
+				/>
+				<button className={styles.button}>회원가입</button>
 			</form>
 			<SocialLogin />
 		</div>
